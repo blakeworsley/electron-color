@@ -1,8 +1,24 @@
 const $redValueInput = $('.red-value-input');
+const $greenValueInput = $('.green-value-input');
+const $blueValueInput = $('.blue-value-input');
 const $redValue = $('.red-value');
+const $greenValue = $('.green-value');
+const $blueValue = $('.blue-value');
 
 $redValueInput.on('keyup', function(e) {
   e.preventDefault();
   let r = $redValueInput.val();
-  $redValue.innerText(r);
+  $redValue.html(r);
+});
+
+$greenValueInput.on('keyup', function(e) {
+  e.preventDefault();
+  let g = $greenValueInput.val();
+  $greenValue.html(g);
+});
+
+$blueValueInput.on('keyup', function(e) {
+  e.preventDefault();
+  let b = $blueValueInput.val();
+  $blueValue.html(b);
 });
