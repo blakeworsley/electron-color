@@ -3,40 +3,80 @@ const $redValueInput = $('.red-value-input');
 const $greenValueInput = $('.green-value-input');
 const $blueValueInput = $('.blue-value-input');
 const $alphaValueInput = $('.alpha-value-input');
+const $redValueInputSlider = $('.red-value-input-slider');
+const $greenValueInputSlider = $('.green-value-input-slider');
+const $blueValueInputSlider = $('.blue-value-input-slider');
+const $alphaValueInputSlider = $('.alpha-value-input-slider');
 const $redValue = $('.red-value');
 const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
 const $alphaValue = $('.alpha-value');
 
-$redValueInput.on('change', function(e) {
-  e.preventDefault();
+$redValueInput.on('change', function() {
   let r = $redValueInput.val();
   $redValue.html(r);
+  $redValueInputSlider.val(r);
   updateColor();
 });
 
-$greenValueInput.on('change', function(e) {
-  e.preventDefault();
+$greenValueInput.on('change', function() {
   let g = $greenValueInput.val();
   $greenValue.html(g);
+  $greenValueInputSlider.val(g);  
   updateColor();
 });
 
-$blueValueInput.on('change', function(e) {
-  e.preventDefault();
+$blueValueInput.on('change', function() {
   let b = $blueValueInput.val();
   $blueValue.html(b);
+  $blueValueInputSlider.val(b);  
   updateColor();
 });
 
-$alphaValueInput.on('change', function(e) {
-  e.preventDefault();
+$alphaValueInput.on('change', function() {
   let a = $alphaValueInput.val();
   $alphaValue.html(a);
+  $alphaValueInputSlider.val(a);
   updateColor();
 });
 
-function updateColor(){
-  let rgba = `rgba(${$redValueInput.val()}, ${$greenValueInput.val()}, ${$blueValueInput.val()}, ${$alphaValueInput.val()})`;
-  $bodyBackground.css({'background-color': `${rgba}`});
+$redValueInputSlider.on('change', function() {
+  let r = $redValueInputSlider.val();
+  $redValue.html(r);
+  $redValueInput.val(r);
+  updateColor();
+});
+
+$greenValueInputSlider.on('change', function() {
+  let g = $greenValueInputSlider.val();
+  $greenValue.html(g);
+  $greenValueInput.val(g);  
+  updateColor();
+});
+
+$blueValueInputSlider.on('change', function() {
+  let b = $blueValueInputSlider.val();
+  $blueValue.html(b);
+  $blueValueInput.val(b);  
+  updateColor();
+});
+
+$alphaValueInputSlider.on('change', function() {
+  let a = $alphaValueInputSlider.val();
+  $alphaValue.html(a);
+  $alphaValueInput.val(a);
+  updateColor();
+});
+
+function updateColor(){ 
+  let red = $redValueInput.val();
+  let green = $greenValueInput.val();
+  let blue = $blueValueInput.val();
+  let alpha = $alphaValueInput.val();
+  let rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+  updateBackgroundColor(red, green, blue);
+}
+
+function updateBackgroundColor(red, green, blue) {
+  $bodyBackground.css({'background-color': `rgba(${red}, ${green}, ${blue}, 0.5)`});
 }
