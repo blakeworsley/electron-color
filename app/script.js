@@ -1,12 +1,18 @@
+const { clipboard } = require('electron');
+
 const $bodyBackground = $('.body-background');
+const $rgbaValue = $('.rgba-value');
+
 const $redValueInput = $('.red-value-input');
 const $greenValueInput = $('.green-value-input');
 const $blueValueInput = $('.blue-value-input');
 const $alphaValueInput = $('.alpha-value-input');
+
 const $redValueInputSlider = $('.red-value-input-slider');
 const $greenValueInputSlider = $('.green-value-input-slider');
 const $blueValueInputSlider = $('.blue-value-input-slider');
 const $alphaValueInputSlider = $('.alpha-value-input-slider');
+
 const $redValue = $('.red-value');
 const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
@@ -66,6 +72,10 @@ $alphaValueInputSlider.on('change', function() {
   $alphaValue.html(a);
   $alphaValueInput.val(a);
   updateColor();
+});
+
+$rgbaValue.on('click', function() {
+  clipboard.writeText($rgbaValue.text().trim());
 });
 
 function updateColor(){ 
