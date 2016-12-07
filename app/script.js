@@ -2,6 +2,9 @@ const { clipboard } = require('electron');
 
 const $bodyBackground = $('.body-background');
 const $rgbaValue = $('.rgba-value');
+const $hexValue = $('.hex-value');
+
+const $hexValueButton = $('.hex-value-button');
 
 const $redValueInput = $('.red-value-input');
 const $greenValueInput = $('.green-value-input');
@@ -28,14 +31,14 @@ $redValueInput.on('change', function() {
 $greenValueInput.on('change', function() {
   let g = $greenValueInput.val();
   $greenValue.html(g);
-  $greenValueInputSlider.val(g);  
+  $greenValueInputSlider.val(g);
   updateColor();
 });
 
 $blueValueInput.on('change', function() {
   let b = $blueValueInput.val();
   $blueValue.html(b);
-  $blueValueInputSlider.val(b);  
+  $blueValueInputSlider.val(b);
   updateColor();
 });
 
@@ -56,14 +59,14 @@ $redValueInputSlider.on('change', function() {
 $greenValueInputSlider.on('change', function() {
   let g = $greenValueInputSlider.val();
   $greenValue.html(g);
-  $greenValueInput.val(g);  
+  $greenValueInput.val(g);
   updateColor();
 });
 
 $blueValueInputSlider.on('change', function() {
   let b = $blueValueInputSlider.val();
   $blueValue.html(b);
-  $blueValueInput.val(b);  
+  $blueValueInput.val(b);
   updateColor();
 });
 
@@ -76,15 +79,32 @@ $alphaValueInputSlider.on('change', function() {
 
 $rgbaValue.on('click', function() {
   clipboard.writeText($rgbaValue.text().trim());
+  alert('Value copied!');
 });
 
-function updateColor(){ 
+// TODO: Need access to result of rgbToHex function
+// $hexValueButton.on('click', function() {
+//   let hex = rgbToHex('rgba(255, 80, 0, 1)');
+//   clipboard.writeText(hex);
+// });
+
+function rgbToHex(rgb){
+  rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+  return (rgb && rgb.length === 4) ? "#" +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+}
+
+function updateColor(){
   let red = $redValueInput.val();
   let green = $greenValueInput.val();
   let blue = $blueValueInput.val();
   let alpha = $alphaValueInput.val();
   let rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
   updateBackgroundColor(red, green, blue);
+  let hex = rgbToHex(rgba);
+  $hexValue.html(hex);
 }
 
 function updateBackgroundColor(red, green, blue) {
