@@ -18,77 +18,25 @@ const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
 const $alphaValue = $('.alpha-value');
 
-$redValueInput.on('change', function() {
-  let r = $redValueInput;
-  r = validateMaxColorValue(r, 255);
-  $redValueInput.val(r);
-  $redValue.html(r);
-  $redValueInputSlider.val(r);
+function handleIndividualColorValue( colorSelector, colorValue, alternateColorSelector ) {
+  debugger;
+  let color = colorSelector;
+  color = validateMaxColorValue(color, 255);
+  colorSelector.val(color);
+  colorValue.html(color);
+  alternateColorSelector.val(color);
   updateColor();
-});
+}
 
-$greenValueInput.on('change', function() {
-  let g = $greenValueInput;
-  g = validateMaxColorValue(g, 255); 
-  $greenValueInput.val(g);   
-  $greenValue.html(g);
-  $greenValueInputSlider.val(g);  
-  updateColor();
-});
+$redValueInput.on('change', () => handleIndividualColorValue($redValueInput, $redValue, $redValueInputSlider));
+$greenValueInput.on('change', () => handleIndividualColorValue($greenValueInput, $greenValue, $greenValueInputSlider));
+$blueValueInput.on('change', () => handleIndividualColorValue($blueValueInput, $blueValue, $blueValueInputSlider));
+$alphaValueInput.on('change', () => handleIndividualColorValue($alphaValueInput, $alphaValue, $alphaValueInputSlider));
 
-$blueValueInput.on('change', function() {
-  let b = $blueValueInput;
-  b = validateMaxColorValue(b, 255);
-  $blueValueInput.val(b);  
-  $blueValue.html(b);
-  $blueValueInputSlider.val(b);  
-  updateColor();
-});
-
-$alphaValueInput.on('change', function() {
-  let a = $alphaValueInput;
-  a = validateMaxColorValue(a, 1);  
-  $alphaValueInput.val(a);  
-  $alphaValue.html(a);
-  $alphaValueInputSlider.val(a);
-  updateColor();
-});
-
-$redValueInputSlider.on('change', function() {
-  let r = $redValueInputSlider;
-  r = validateMaxColorValue(r, 255);    
-  $redValueInputSlider.val(r);  
-  $redValue.html(r);
-  $redValueInput.val(r);
-  updateColor();
-});
-
-$greenValueInputSlider.on('change', function() {
-  let g = $greenValueInputSlider;
-  g = validateMaxColorValue(g, 255);
-  $greenValueInputSlider.val(g);      
-  $greenValue.html(g);
-  $greenValueInput.val(g);  
-  updateColor();
-});
-
-$blueValueInputSlider.on('change', function() {
-  let b = $blueValueInputSlider;
-  b = validateMaxColorValue(b, 255);  
-  $blueValueInputSlider.val(b);    
-  $blueValue.html(b);
-  $blueValueInput.val(b);  
-  updateColor();
-});
-
-$alphaValueInputSlider.on('change', function() {
-  let a = $alphaValueInputSlider;
-  a = validateMaxColorValue(a, 1);
-  $alphaValueInputSlider.val(a);  
-  $alphaValue.html(a);
-  $alphaValueInput.val(a);
-  updateColor();
-});
+$redValueInputSlider.on('change', () => handleIndividualColorValue($redValueInputSlider, $redValue, $redValueInput));
+$greenValueInputSlider.on('change', () => handleIndividualColorValue($greenValueInputSlider, $greenValue, $greenValueInput));
+$blueValueInputSlider.on('change', () => handleIndividualColorValue($blueValueInputSlider, $blueValue, $blueValueInput));
+$alphaValueInputSlider.on('change', () => handleIndividualColorValue($alphaValueInputSlider, $alphaValue, $alphaValueInput));
 
 $rgbaValue.on('click', function() {
   clipboard.writeText($rgbaValue.text().trim());
