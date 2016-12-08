@@ -1,0 +1,29 @@
+.rgba-copied::after, .hex-copied::after {
+  content: 'copied to clipboard';
+  background: white;
+  border: 3px solid #777;
+  padding: 5px; }
+
+.gradient {
+  width: 100%;
+  height: 200px;
+  position: relative; }
+
+.gradient-color, .gradient-white, .gradient-black {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  opacity: 60%; }
+
+.gradient-white {
+  background-image: -webkit-linear-gradient(#FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(#FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(#FFFFFF 0%, rgba(255, 255, 255, 0) 100%); }
+
+.gradient-black {
+  background-image: -webkit-linear-gradient(transparent 0%, #000000 100%);
+  background-image: -o-linear-gradient(transparent 0%, #000000 100%);
+  background-image: linear-gradient(transparent 0%, #000000 100%); }
+
+/*# sourceMappingURL=index.css.map */
