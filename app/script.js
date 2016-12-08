@@ -47,7 +47,7 @@ $rgbaValue.on('click', function() {
 
 $hexValueButton.on('click', function() {
   clipboard.writeText($hexValueButton.text().trim());
-  alert('Value copied!');  
+  alert('Value copied!');
 });
 
 function rgbToHex(rgb){
@@ -58,6 +58,27 @@ function rgbToHex(rgb){
   ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 
+function rgbToHsl(r, g, b){
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+
+    if(max == min){
+        h = s = 0; // achromatic
+    }else{
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch(max){
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return [h, s, l];
+}
+
 function validateMaxColorValue(inputValue, max) {
   let color = inputValue.val()
   if(color >= max) { return max; }
@@ -65,7 +86,7 @@ function validateMaxColorValue(inputValue, max) {
   return color;
 }
 
-function updateColor(){ 
+function updateColor(){
   let red = $redValueInput.val();
   let green = $greenValueInput.val();
   let blue = $blueValueInput.val();
@@ -74,6 +95,7 @@ function updateColor(){
   updateBackgroundColor(red, green, blue);
   let hex = rgbToHex(rgba);
   $hexValue.html(hex);
+  console.log(rgbToHsl(red, green, blue));
 }
 
 function updateBackgroundColor(red, green, blue) {
