@@ -87,6 +87,4 @@ function updateBackgroundColor(red, green, blue) {
 function updateGradientColor(red, green, blue, hex) {
   const gradient = `linear-gradient(-270deg, rgba(${red},${green},${blue}, 0) 0%, ${hex} 100%)`
   $gradientColor.css({'background-image': gradient});
-  // background-image: linear-gradient(-90deg, rgba(255,0,0,0.00) 0%, #FF0000 100%);
-
 }
