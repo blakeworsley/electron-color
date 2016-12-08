@@ -1,6 +1,7 @@
 const { clipboard } = require('electron');
 
 const $bodyBackground = $('.body-background');
+const $gradientColor = $('.gradient-color');
 const $rgbaValue = $('.rgba-value');
 const $hexValue = $('.hex-value');
 const $hexContainer = $('.hex-container');
@@ -45,13 +46,11 @@ $alphaValueInputSlider.on('change', () => handleIndividualColorValue($alphaValue
 $rgbaValue.on('click', function() {
   clipboard.writeText($rgbaValue.text().trim());
   $rgbaContainer.addClass('rgba-copied');
-  debugger;
 });
 
 $hexValueButton.on('click', function() {
   clipboard.writeText($hexValueButton.text().trim());
   $hexContainer.addClass('hex-copied');
-  debugger;
 });
 
 function rgbToHex(rgb){
@@ -75,11 +74,19 @@ function updateColor(){
   let blue = $blueValueInput.val();
   let alpha = $alphaValueInput.val();
   let rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
-  updateBackgroundColor(red, green, blue);
   let hex = rgbToHex(rgba);
+  updateBackgroundColor(red, green, blue);
+  updateGradientColor(red, green, blue, hex);
   $hexValue.html(hex);
 }
 
 function updateBackgroundColor(red, green, blue) {
   $bodyBackground.css({'background-color': `rgba(${red}, ${green}, ${blue}, 0.5)`});
+}
+
+function updateGradientColor(red, green, blue, hex) {
+  const gradient = `linear-gradient(-270deg, rgba(${red},${green},${blue}, 0) 0%, ${hex} 100%)`
+  $gradientColor.css({'background-image': gradient});
+  // background-image: linear-gradient(-90deg, rgba(255,0,0,0.00) 0%, #FF0000 100%);
+
 }
