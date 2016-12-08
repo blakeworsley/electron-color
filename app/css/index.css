@@ -1,0 +1,6 @@
+.rgba-copied::after, .hex-copied::after {
+  content: 'copied to clipboard';
+  background: white;
+  border: 3px solid #777;
+  transition: 2s;
+}

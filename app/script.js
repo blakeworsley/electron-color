@@ -3,6 +3,8 @@ const { clipboard } = require('electron');
 const $bodyBackground = $('.body-background');
 const $rgbaValue = $('.rgba-value');
 const $hexValue = $('.hex-value');
+const $hexContainer = $('.hex-container');
+const $rgbaContainer = $('.rgba-containter');
 
 const $hexValueButton = $('.hex-value-button');
 
@@ -42,12 +44,14 @@ $alphaValueInputSlider.on('change', () => handleIndividualColorValue($alphaValue
 
 $rgbaValue.on('click', function() {
   clipboard.writeText($rgbaValue.text().trim());
-  alert('Value copied!');
+  $rgbaContainer.addClass('rgba-copied');
+  debugger;
 });
 
 $hexValueButton.on('click', function() {
   clipboard.writeText($hexValueButton.text().trim());
-  alert('Value copied!');  
+  $hexContainer.addClass('hex-copied');
+  debugger;
 });
 
 function rgbToHex(rgb){

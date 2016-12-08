@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/index.css">
     <title>Electron Color - Kyle & Blake</title>
   </head>
   <body class='body-background'>
@@ -22,17 +23,18 @@
       <input class='alpha-value-input' value='1' type='number' min='0' max='1' step='0.01' />
       <input class='alpha-value-input-slider' value='1' type='range' min='0' max='1' step='0.01' />
     </p>
-    <p>RGBa Value:
+    <p class='rgba-containter'>RGBa Value:
       <button class='rgba-value'>
         rgba(<span class='red-value'>0</span>, <span class='green-value'>0</span>, <span class='blue-value'>0</span>, <span class='alpha-value'>1</span>)
       </button>
     </p>
-    <p>Hex Value:
+    <p class='hex-container'>Hex Value:
       <button class='hex-value-button'><span class='hex-value'>#000000</span></button>
+    </p>
     <script src="jquery.js"></script>
     <script>
       try { $ = jQuery = module.exports; } catch(e) {}
-    </script>
+    </script> 
     <script src='script.js'></script>
   </body>
 </html>
