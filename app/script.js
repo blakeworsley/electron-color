@@ -1,3 +1,4 @@
+const robot = require("robotjs");
 const { clipboard } = require('electron');
 
 const $bodyBackground = $('.body-background');
@@ -88,3 +89,18 @@ function updateGradientColor(red, green, blue, hex) {
   const gradient = `linear-gradient(-270deg, rgba(${red},${green},${blue}, 0) 0%, ${hex} 100%)`
   $gradientColor.css({'background-image': gradient});
 }
+
+function getDropperColor() {
+  const position = robot.getMousePos();
+  const dropperColor = robot.getPixelColor(position.x, position.y);
+  console.log(dropperColor);
+}
+
+function hexToRgb(hex) {
+  hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+             ,(m, r, g, b) => '#' + r + r + g + g + b + b)
+    .substring(1).match(/.{2}/g)
+    .map(x => parseInt(x, 16))
+}
+
+$('html').on('click', () => { getDropperColor() });

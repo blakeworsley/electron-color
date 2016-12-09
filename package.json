@@ -19,13 +19,15 @@
   },
   "homepage": "https://github.com/blakeworsley/electron-color#readme",
   "dependencies": {
-    "electron": "^1.4.10"
+    "electron": "^1.4.10",
+    "robotjs": "^0.4.5"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-jquery": "^2.0.0",
     "devtron": "^1.4.0",
+    "electron-rebuild": "^1.4.0",
     "mocha": "^3.2.0",
     "spectron": "^3.4.0"
   }

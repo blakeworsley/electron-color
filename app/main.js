@@ -2,10 +2,13 @@ const { app, BrowserWindow } = require('electron');
 
 let mainWindow = null;
 
-app.on('ready', () => {
+app.on('ready', () => { 
+
   mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 600,
+    width: 3000,
+    height: 3000,
+    frame: false,
+    transparent: true,
     // width: 300,
     // height: 500,
     // maxWidth: 800,
@@ -17,4 +20,5 @@ app.on('ready', () => {
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
   });
+  
 });
