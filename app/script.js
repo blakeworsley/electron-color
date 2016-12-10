@@ -1,3 +1,4 @@
+const robot = require("robotjs");
 const { clipboard } = require('electron');
 
 const $bodyBackground = $('.body-background');
@@ -7,6 +8,9 @@ const $hexValue = $('.hex-value');
 const $hexContainer = $('.hex-container');
 const $rgbaContainer = $('.rgba-containter');
 
+const $eyedropperView = $('.eyedropper-view');
+
+const $eyedropperButton = $('.eyedropper-button');
 const $hexValueButton = $('.hex-value-button');
 
 const $redValueInput = $('.red-value-input');
@@ -75,8 +79,8 @@ function updateColor(){
   let alpha = $alphaValueInput.val();
   let rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
   let hex = rgbToHex(rgba);
-  updateBackgroundColor(red, green, blue);
   updateGradientColor(red, green, blue, hex);
+  updateBackgroundColor(red, green, blue);
   $hexValue.html(hex);
 }
 
@@ -88,3 +92,47 @@ function updateGradientColor(red, green, blue, hex) {
   const gradient = `linear-gradient(-270deg, rgba(${red},${green},${blue}, 0) 0%, ${hex} 100%)`
   $gradientColor.css({'background-image': gradient});
 }
+
+function updateEyedropperView() {
+  const { position, dropperColor } = getDropperColor();
+  $eyedropperView.css({ 
+    'top': `${position.y-70}px`, 
+    'left': `${position.x-40}px`,
+    'border': `solid 20px #${dropperColor}`, 
+    'opacity': '1'
+  });
+}
+
+function getMousePosition(){
+  return robot.getMousePos();
+}
+
+function getDropperColor(){
+  const position = getMousePosition();
+  const dropperColor = robot.getPixelColor(position.x, position.y);
+  const color = {position, dropperColor};
+  return color;
+}
+
+function hexToRgb(hex) {
+  hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+             ,(m, r, g, b) => '#' + r + r + g + g + b + b)
+    .substring(1).match(/.{2}/g)
+    .map(x => parseInt(x, 16));
+}
+
+$eyedropperButton.on('click', () => {
+  $eyedropperView.toggle();
+  updateEyedropperView()
+  $('html').on('mousemove', () => { 
+    updateEyedropperView();
+  });
+  $('html').on('click', () => {
+    console.log(getDropperColor());
+  });
+});
+
+$(document).keyup(function(e) {
+  if (e.keyCode == 69) {$eyedropperView.toggle()};
+  if (e.keyCode == 27) {$bodyBackground.toggle()};
+});
