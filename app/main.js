@@ -3,7 +3,6 @@ const storage = require('electron-storage');
 
 let mainWindow = null;
 
-
 app.on('ready', () => {
 
   doesStorageExist();

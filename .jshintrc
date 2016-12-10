@@ -1,9 +1,13 @@
+
 {
   "predef": [
     "document",
     "window",
     "-Promise"
   ],
+  "globals": {
+      "$": false
+  },
   "browser": true,
   "boss": true,
   "curly": true,
