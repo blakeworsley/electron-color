@@ -1,6 +1,6 @@
 const { ipcRenderer, remote, clipboard } = require('electron');
 const mainProcess = remote.require('./main');
-const robot = require("robotjs");
+// const robot = require("robotjs");
 
 const $bodyBackground = $('.body-background');
 const $gradientColor = $('.gradient-color');
@@ -130,26 +130,26 @@ function updateGradientColor(red, green, blue, hex) {
   $gradientColor.css({'background-image': gradient});
 }
 
-function updateEyedropperView() {
-  const { position, dropperColor } = getDropperColor();
-  $eyedropperView.css({
-    'top': `${position.y-70}px`,
-    'left': `${position.x-40}px`,
-    'border': `solid 20px #${dropperColor}`,
-    'opacity': '1'
-  });
-}
+// function updateEyedropperView() {
+//   const { position, dropperColor } = getDropperColor();
+//   $eyedropperView.css({
+//     'top': `${position.y-70}px`,
+//     'left': `${position.x-40}px`,
+//     'border': `solid 20px #${dropperColor}`,
+//     'opacity': '1'
+//   });
+// }
 
-function getMousePosition(){
-  return robot.getMousePos();
-}
+// function getMousePosition(){
+//   return robot.getMousePos();
+// }
 
-function getDropperColor(){
-  const position = getMousePosition();
-  const dropperColor = robot.getPixelColor(position.x, position.y);
-  const color = {position, dropperColor};
-  return color;
-}
+// function getDropperColor(){
+//   const position = getMousePosition();
+//   const dropperColor = robot.getPixelColor(position.x, position.y);
+//   const color = {position, dropperColor};
+//   return color;
+// }
 
 function hexToRgb(hex) {
   hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
@@ -158,18 +158,18 @@ function hexToRgb(hex) {
     .map(x => parseInt(x, 16));
 }
 
-$eyedropperButton.on('click', () => {
-  $eyedropperView.toggle();
-  updateEyedropperView();
-  $('html').on('mousemove', () => {
-    updateEyedropperView();
-  });
-  $('html').on('click', () => {
-    console.log(getDropperColor());
-  });
-});
+// $eyedropperButton.on('click', () => {
+//   $eyedropperView.toggle();
+//   updateEyedropperView();
+//   $('html').on('mousemove', () => {
+//     updateEyedropperView();
+//   });
+//   $('html').on('click', () => {
+//     console.log(getDropperColor());``
+//   });
+// });
 
-$(document).keyup(function(e) {
-  if (e.keyCode == 69) {$eyedropperView.toggle()};
-  if (e.keyCode == 27) {$bodyBackground.toggle()};
-});
+// $(document).keyup(function(e) {
+//   if (e.keyCode == 69) {$eyedropperView.toggle()};
+//   if (e.keyCode == 27) {$bodyBackground.toggle()};
+// });
