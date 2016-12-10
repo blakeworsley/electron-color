@@ -8,6 +8,7 @@ const $rgbaValue = $('.rgba-value');
 const $hexValue = $('.hex-value');
 const $hexContainer = $('.hex-container');
 const $rgbaContainer = $('.rgba-containter');
+const $saveColorButton = $('.save-color-button');
 
 const $eyedropperView = $('.eyedropper-view');
 
@@ -69,6 +70,14 @@ $rgbaValue.on('click', function() {
 $hexValueButton.on('click', function() {
   clipboard.writeText($hexValueButton.text().trim());
   $hexContainer.addClass('hex-copied');
+});
+
+$saveColorButton.on('click', function() {
+  let red = $redValueInput.val();
+  let green = $greenValueInput.val();
+  let blue = $blueValueInput.val();
+  let alpha = $alphaValueInput.val();
+  mainProcess.saveCurrentColor({ r:red, g:green, b:blue, a:alpha });
 });
 
 function rgbToHex(rgb){
