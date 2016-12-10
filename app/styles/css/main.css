@@ -1,0 +1,51 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; }
+
+.body-background {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+.eyedropper-view {
+  opacity: 0;
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  pointer-events: none;
+  border-radius: 50px;
+  box-shadow: 0 0px 0px 2px #AAA, inset 0 0 0 2px #AAA;
+  cursor: crosshair; }
+
+.rgba-copied::after, .hex-copied::after {
+  content: 'copied to clipboard';
+  background: white;
+  border: 3px solid #777;
+  padding: 5px; }
+
+.gradient {
+  width: 100%;
+  height: 200px;
+  position: relative; }
+
+.gradient-color, .gradient-white, .gradient-black {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  opacity: 60%; }
+
+.gradient-white {
+  background-image: -webkit-linear-gradient(#FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(#FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(#FFFFFF 0%, rgba(255, 255, 255, 0) 100%); }
+
+.gradient-black {
+  background-image: -webkit-linear-gradient(transparent 0%, #000000 100%);
+  background-image: -o-linear-gradient(transparent 0%, #000000 100%);
+  background-image: linear-gradient(transparent 0%, #000000 100%); }
+
+/*# sourceMappingURL=main.css.map */

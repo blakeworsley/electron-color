@@ -3,15 +3,20 @@ const storage = require('electron-storage');
 
 let mainWindow = null;
 
+
 app.on('ready', () => {
 
   doesStorageExist();
 
   mainWindow = new BrowserWindow({
-    width: 300,
-    height: 500,
-    maxWidth: 800,
-    maxHeight: 600
+    width: 3000,
+    height: 3000,
+    frame: false,
+    transparent: true,
+    // width: 300,
+    // height: 500,
+    // maxWidth: 800,
+    // maxHeight: 600
   });
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
@@ -19,6 +24,7 @@ app.on('ready', () => {
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
   });
+
 });
 
 const doesStorageExist = () => {

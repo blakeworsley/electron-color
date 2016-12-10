@@ -38,3 +38,6 @@ jspm_packages
 
 # Microsoft
 .vscode
+
+# SASS
+.sass-cashe
