@@ -31,16 +31,20 @@ const $alphaValue = $('.alpha-value');
 
 mainProcess.retrieveDataFromStorage();
 ipcRenderer.on('retrieved-colors', (event, data) => {
-  $redValueInput.val(data.current.r);
-  $greenValueInput.val(data.current.g);
-  $blueValueInput.val(data.current.b);
-  $alphaValueInput.val(data.current.a);
-  $redValueInputSlider.val(data.current.r);
-  $greenValueInputSlider.val(data.current.g);
-  $blueValueInputSlider.val(data.current.b);
-  $alphaValueInputSlider.val(data.current.a);
+  updateInputs(data.current);
   updateColor();
 });
+
+function updateInputs(data){
+  $redValueInput.val(data.r);
+  $greenValueInput.val(data.g);
+  $blueValueInput.val(data.b);
+  $alphaValueInput.val(data.a);
+  $redValueInputSlider.val(data.r);
+  $greenValueInputSlider.val(data.g);
+  $blueValueInputSlider.val(data.b);
+  $alphaValueInputSlider.val(data.a);
+}
 
 function handleIndividualColorValue( colorSelector, colorValue, alternateColorSelector ) {
   let color = colorSelector;
@@ -152,10 +156,11 @@ function getDropperColor(){
 }
 
 function hexToRgb(hex) {
-  hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
-             ,(m, r, g, b) => '#' + r + r + g + g + b + b)
-    .substring(1).match(/.{2}/g)
-    .map(x => parseInt(x, 16));
+    const large = parseInt(hex, 16);
+    const r = (large >> 16) & 255;
+    const g = (large >> 8) & 255;
+    const b = large & 255;
+    return {r:r, g:g, b:b, a:1};
 }
 
 $eyedropperButton.on('click', () => {
@@ -165,7 +170,10 @@ $eyedropperButton.on('click', () => {
     updateEyedropperView();
   });
   $('html').on('click', () => {
-    console.log(getDropperColor());
+    const hex = getDropperColor();
+    const rgb = hexToRgb(hex.dropperColor)
+    updateInputs(rgb);
+    updateColor();
   });
 });
 
