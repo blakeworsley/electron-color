@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/blakeworsley/electron-color#readme",
   "dependencies": {
-    "electron": "^1.4.10"
+    "electron": "^1.4.10",
+    "electron-storage": "^1.0.7"
   },
   "devDependencies": {
     "devtron": "^1.4.0",

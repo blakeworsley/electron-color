@@ -1,0 +1,3 @@
+Find storage:
+ 1) cd ~/Library/Application\ Support/electron-color/
+ 2) cat saved-colors.json

@@ -1,4 +1,5 @@
-const { clipboard } = require('electron');
+const { ipcRenderer, remote, clipboard } = require('electron');
+const mainProcess = remote.require('./main');
 
 const $bodyBackground = $('.body-background');
 const $rgbaValue = $('.rgba-value');
@@ -20,6 +21,19 @@ const $redValue = $('.red-value');
 const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
 const $alphaValue = $('.alpha-value');
+
+mainProcess.retrieveDataFromStorage();
+ipcRenderer.on('retrieved-colors', (event, data) => {
+  $redValueInput.val(data.current.r);
+  $greenValueInput.val(data.current.g);
+  $blueValueInput.val(data.current.b);
+  $alphaValueInput.val(data.current.a);
+  $redValueInputSlider.val(data.current.r);
+  $greenValueInputSlider.val(data.current.g);
+  $blueValueInputSlider.val(data.current.b);
+  $alphaValueInputSlider.val(data.current.a);
+  updateColor();
+});
 
 function handleIndividualColorValue( colorSelector, colorValue, alternateColorSelector ) {
   let color = colorSelector;
@@ -75,12 +89,11 @@ function rgbToHsl(r, g, b){
         }
         h /= 6;
     }
-
     return [h, s, l];
 }
 
 function validateMaxColorValue(inputValue, max) {
-  let color = inputValue.val()
+  let color = inputValue.val();
   if(color >= max) { return max; }
   if(color < 0) { return 0; }
   return color;
@@ -95,7 +108,9 @@ function updateColor(){
   updateBackgroundColor(red, green, blue);
   let hex = rgbToHex(rgba);
   $hexValue.html(hex);
-  console.log(rgbToHsl(red, green, blue));
+  $rgbaValue.html(rgba);
+  mainProcess.persistCurrentColor({ r:red, g:green, b:blue, a:alpha });
+  // console.log(rgbToHsl(red, green, blue));
 }
 
 function updateBackgroundColor(red, green, blue) {
