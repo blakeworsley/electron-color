@@ -1,5 +1,6 @@
+const { ipcRenderer, remote, clipboard } = require('electron');
+const mainProcess = remote.require('./main');
 const robot = require("robotjs");
-const { clipboard } = require('electron');
 
 const $bodyBackground = $('.body-background');
 const $gradientColor = $('.gradient-color');
@@ -27,6 +28,23 @@ const $redValue = $('.red-value');
 const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
 const $alphaValue = $('.alpha-value');
+
+mainProcess.retrieveDataFromStorage();
+ipcRenderer.on('retrieved-colors', (event, data) => {
+  updateInputs(data.current);
+  updateColor();
+});
+
+function updateInputs(data){
+  $redValueInput.val(data.r);
+  $greenValueInput.val(data.g);
+  $blueValueInput.val(data.b);
+  $alphaValueInput.val(data.a);
+  $redValueInputSlider.val(data.r);
+  $greenValueInputSlider.val(data.g);
+  $blueValueInputSlider.val(data.b);
+  $alphaValueInputSlider.val(data.a);
+}
 
 function handleIndividualColorValue( colorSelector, colorValue, alternateColorSelector ) {
   let color = colorSelector;
@@ -65,14 +83,34 @@ function rgbToHex(rgb){
   ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 
+function rgbToHsl(r, g, b){
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+
+    if(max == min){
+        h = s = 0; // achromatic
+    }else{
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch(max){
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+    return [h, s, l];
+}
+
 function validateMaxColorValue(inputValue, max) {
-  let color = inputValue.val()
+  let color = inputValue.val();
   if(color >= max) { return max; }
   if(color < 0) { return 0; }
   return color;
 }
 
-function updateColor(){ 
+function updateColor(){
   let red = $redValueInput.val();
   let green = $greenValueInput.val();
   let blue = $blueValueInput.val();
@@ -82,6 +120,9 @@ function updateColor(){
   updateGradientColor(red, green, blue, hex);
   updateBackgroundColor(red, green, blue);
   $hexValue.html(hex);
+  $rgbaValue.html(rgba);
+  mainProcess.persistCurrentColor({ r:red, g:green, b:blue, a:alpha });
+  // console.log(rgbToHsl(red, green, blue));
 }
 
 function updateBackgroundColor(red, green, blue) {
@@ -89,16 +130,16 @@ function updateBackgroundColor(red, green, blue) {
 }
 
 function updateGradientColor(red, green, blue, hex) {
-  const gradient = `linear-gradient(-270deg, rgba(${red},${green},${blue}, 0) 0%, ${hex} 100%)`
+  const gradient = `linear-gradient(-270deg, rgba(${red},${green},${blue}, 0) 0%, ${hex} 100%)`;
   $gradientColor.css({'background-image': gradient});
 }
 
 function updateEyedropperView() {
   const { position, dropperColor } = getDropperColor();
-  $eyedropperView.css({ 
-    'top': `${position.y-70}px`, 
+  $eyedropperView.css({
+    'top': `${position.y-70}px`,
     'left': `${position.x-40}px`,
-    'border': `solid 20px #${dropperColor}`, 
+    'border': `solid 20px #${dropperColor}`,
     'opacity': '1'
   });
 }
@@ -115,20 +156,24 @@ function getDropperColor(){
 }
 
 function hexToRgb(hex) {
-  hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
-             ,(m, r, g, b) => '#' + r + r + g + g + b + b)
-    .substring(1).match(/.{2}/g)
-    .map(x => parseInt(x, 16));
+    const large = parseInt(hex, 16);
+    const r = (large >> 16) & 255;
+    const g = (large >> 8) & 255;
+    const b = large & 255;
+    return {r:r, g:g, b:b, a:1};
 }
 
 $eyedropperButton.on('click', () => {
   $eyedropperView.toggle();
-  updateEyedropperView()
-  $('html').on('mousemove', () => { 
+  updateEyedropperView();
+  $('html').on('mousemove', () => {
     updateEyedropperView();
   });
   $('html').on('click', () => {
-    console.log(getDropperColor());
+    const hex = getDropperColor();
+    const rgb = hexToRgb(hex.dropperColor)
+    updateInputs(rgb);
+    updateColor();
   });
 });
 

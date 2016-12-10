@@ -20,6 +20,7 @@
   "homepage": "https://github.com/blakeworsley/electron-color#readme",
   "dependencies": {
     "electron": "^1.4.10",
+    "electron-storage": "^1.0.7",
     "robotjs": "^0.4.5"
   },
   "devDependencies": {
