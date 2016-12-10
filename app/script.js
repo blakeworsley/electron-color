@@ -29,9 +29,12 @@ const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
 const $alphaValue = $('.alpha-value');
 
+const $savedColors = $('.saved-colors');
+
 mainProcess.retrieveDataFromStorage();
 ipcRenderer.on('retrieved-colors', (event, data) => {
   updateInputs(data.current);
+  savedColors(data);
   updateColor();
 });
 
@@ -122,7 +125,6 @@ function updateColor(){
   $hexValue.html(hex);
   $rgbaValue.html(rgba);
   mainProcess.persistCurrentColor({ r:red, g:green, b:blue, a:alpha });
-  // console.log(rgbToHsl(red, green, blue));
 }
 
 function updateBackgroundColor(red, green, blue) {
@@ -171,11 +173,20 @@ $eyedropperButton.on('click', () => {
   });
   $('html').on('click', () => {
     const hex = getDropperColor();
-    const rgb = hexToRgb(hex.dropperColor)
+    const rgb = hexToRgb(hex.dropperColor);
     updateInputs(rgb);
     updateColor();
   });
 });
+
+function savedColors(data) {
+    data.saved.map((i, count) => {
+    if (count >= 30) {return};
+    $savedColors.append(`
+      <li class='saved-color saved-color-${count + 1}' style='background-color:${`rgba(${i.r}, ${i.g}, ${i.b}, ${i.a})`};'></li>
+    `);
+  });
+}
 
 $(document).keyup(function(e) {
   if (e.keyCode == 69) {$eyedropperView.toggle()};
