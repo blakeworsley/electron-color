@@ -28,6 +28,7 @@ const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
 const $alphaValue = $('.alpha-value');
 
+const $gradient = $('.gradient');
 const $savedColors = $('.saved-colors');
 const $savedColor = $('.saved-color');
 const $eyedropperView = $('.eyedropper-view');
@@ -45,25 +46,9 @@ ipcRenderer.on('retrieved-colors', (event, data) => {
   updateColor();
 });
 
-function updateInputs(data){
-  $redValueInput.val(data.r);
-  $greenValueInput.val(data.g);
-  $blueValueInput.val(data.b);
-  $alphaValueInput.val(data.a);
-  $redValueInputSlider.val(data.r);
-  $greenValueInputSlider.val(data.g);
-  $blueValueInputSlider.val(data.b);
-  $alphaValueInputSlider.val(data.a);
-}
-
-function handleIndividualColorValue( colorSelector, colorValue, alternateColorSelector ) {
-  let color = colorSelector;
-  color = validateMaxColorValue(color, 255);
-  colorSelector.val(color);
-  colorValue.html(color);
-  alternateColorSelector.val(color);
-  updateColor();
-}
+$(document).keyup(function(e) {
+  if (e.keyCode == (27 || 69)) {toggleEyedropper();};
+});
 
 $redValueInput.on('change', () => handleIndividualColorValue($redValueInput, $redValue, $redValueInputSlider));
 $greenValueInput.on('change', () => handleIndividualColorValue($greenValueInput, $greenValue, $greenValueInputSlider));
@@ -91,6 +76,40 @@ $saveColorButton.on('click', function() {
   mainProcess.saveCurrentColor({ r:red, g:green, b:blue, a:alpha });
   mainProcess.retrieveDataFromStorage();
 });
+
+$eyedropperButton.on('click', () => {
+  toggleEyedropper();
+});
+
+
+$gradient.on('click', () => {
+  grabAndChangeColor();
+});
+
+$savedColors.on('click', () => {
+  grabAndChangeColor();
+})
+
+
+function updateInputs(data){
+  $redValueInput.val(data.r);
+  $greenValueInput.val(data.g);
+  $blueValueInput.val(data.b);
+  $alphaValueInput.val(data.a);
+  $redValueInputSlider.val(data.r);
+  $greenValueInputSlider.val(data.g);
+  $blueValueInputSlider.val(data.b);
+  $alphaValueInputSlider.val(data.a);
+}
+
+function handleIndividualColorValue( colorSelector, colorValue, alternateColorSelector ) {
+  let color = colorSelector;
+  color = validateMaxColorValue(color, 255);
+  colorSelector.val(color);
+  colorValue.html(color);
+  alternateColorSelector.val(color);
+  updateColor();
+}
 
 function rgbToHex(rgb){
   rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
@@ -181,15 +200,19 @@ function hexToRgb(hex) {
     return {r:r, g:g, b:b, a:1};
 }
 
-$eyedropperButton.on('click', () => {
-  toggleEyedropper();
-});
-
 function toggleDisplays(){
   $colorPickerFullscreen.toggle();
   $eyedropperView.toggle();
   $electronColorApp.toggle();
   $savedColors.toggle();
+}
+
+function grabAndChangeColor() {
+  const hex = getDropperColor();
+  const rgb = hexToRgb(hex.dropperColor);
+  console.log(hex, rgb, eyedropperToggled);
+  updateInputs(rgb);
+  updateColor();
 }
 
 function toggleEyedropper() {
@@ -199,11 +222,7 @@ function toggleEyedropper() {
       updateEyedropperView();
     });
     $colorPickerFullscreen.on('click', () => {
-      const hex = getDropperColor();
-      const rgb = hexToRgb(hex.dropperColor);
-      console.log(hex, rgb, eyedropperToggled);
-      updateInputs(rgb);
-      updateColor();
+      grabAndChangeColor();
       toggleEyedropper()
     });
   }
@@ -226,7 +245,3 @@ function savedColors(data) {
     }
   });
 }
-
-$(document).keyup(function(e) {
-  if (e.keyCode == (27 || 69)) {toggleEyedropper();};
-});
