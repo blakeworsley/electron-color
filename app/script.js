@@ -6,13 +6,10 @@ const $electronColorApp = $('.electron-color-app');
 const $gradientColor = $('.gradient-color');
 const $rgbaValue = $('.rgba-value');
 const $hexValue = $('.hex-value');
+
 const $hexContainer = $('.hex-container');
 const $rgbaContainer = $('.rgba-containter');
 const $saveColorButton = $('.save-color-button');
-
-const $eyedropperView = $('.eyedropper-view');
-const $colorPickerFullscreen = $('.color-picker-fullscreen');
-
 const $eyedropperButton = $('.eyedropper-button');
 const $hexValueButton = $('.hex-value-button');
 
@@ -32,6 +29,11 @@ const $blueValue = $('.blue-value');
 const $alphaValue = $('.alpha-value');
 
 const $savedColors = $('.saved-colors');
+const $savedColor = $('.saved-color');
+const $eyedropperView = $('.eyedropper-view');
+const $colorPickerFullscreen = $('.color-picker-fullscreen');
+
+let eyedropperToggled = false;
 
 mainProcess.retrieveDataFromStorage();
 $colorPickerFullscreen.toggle();
@@ -75,12 +77,10 @@ $alphaValueInputSlider.on('mousemove change', () => handleIndividualColorValue($
 
 $rgbaValue.on('click', function() {
   clipboard.writeText($rgbaValue.text().trim());
-  $rgbaContainer.addClass('rgba-copied');
 });
 
 $hexValueButton.on('click', function() {
   clipboard.writeText($hexValueButton.text().trim());
-  $hexContainer.addClass('hex-copied');
 });
 
 $saveColorButton.on('click', function() {
@@ -89,6 +89,7 @@ $saveColorButton.on('click', function() {
   let blue = $blueValueInput.val();
   let alpha = $alphaValueInput.val();
   mainProcess.saveCurrentColor({ r:red, g:green, b:blue, a:alpha });
+  mainProcess.retrieveDataFromStorage();
 });
 
 function rgbToHex(rgb){
@@ -177,9 +178,6 @@ function hexToRgb(hex) {
     return {r:r, g:g, b:b, a:1};
 }
 
-
-let eyedropperToggled = false;
-
 $eyedropperButton.on('click', () => {
   toggleEyedropper();
 });
@@ -215,15 +213,17 @@ function toggleEyedropper() {
 }
 
 function savedColors(data) {
-    data.saved.map((i, count) => {
-    if (count >= 20) {return};
-    $savedColors.append(`
-      <li class='saved-color saved-color-${count + 1}' style='background-color:${`rgba(${i.r}, ${i.g}, ${i.b}, ${i.a})`};'></li>
-    `);
+  $savedColors.empty()
+  data.saved.map((i, count) => {
+    if (count >= 20) {return}
+    else  {
+      $savedColors.append(`
+        <li class='saved-color saved-color-${count + 1}' style='background-color:${`rgba(${i.r}, ${i.g}, ${i.b}, ${i.a})`};'></li>
+      `);
+    }
   });
 }
 
 $(document).keyup(function(e) {
-  if (e.keyCode == 69) {$eyedropperView.toggle()};
-  if (e.keyCode == 27) {toggleEyedropper();};
+  if (e.keyCode == (27 || 69)) {toggleEyedropper();};
 });

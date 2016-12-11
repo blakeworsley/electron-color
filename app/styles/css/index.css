@@ -112,18 +112,15 @@ button {
 button:disabled {
   color: #777; }
 
-button:focus, button:hover {
-  border: 3px solid #919191;
+button:hover {
+  border: 3px solid #5e5e5e;
   border-radius: 10px;
-  outline: none;
-  background-color: #6a6a6a;
-  box-shadow: inset 0px 0px 5px 1px #f7f7f7; }
+  background-color: #f7f7f7;
+  box-shadow: inset 0px 0px 5px 1px #f7f7f7;
+  color: #5e5e5e; }
 
 button:focus {
-  background-color: #f7f7f7;
-  border: 3px solid #5e5e5e;
-  color: #5e5e5e;
-  box-shadow: inset 0px 0px 5px 1px #6a6a6a; }
+  outline: none; }
 
 .app {
   display: flex;
