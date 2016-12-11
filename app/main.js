@@ -12,10 +12,6 @@ app.on('ready', () => {
     height: 3000,
     frame: false,
     transparent: true,
-    // width: 300,
-    // height: 500,
-    // maxWidth: 800,
-    // maxHeight: 600
   });
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
@@ -73,7 +69,5 @@ const saveCurrentColor = exports.saveCurrentColor = (color) => {
     .catch(err => console.log(err));
 };
 
-
-
-//data model//
-const defaultData = { current: {r: 0, g: 0, b: 0, a: 1 }, saved: [] };
+-//data model//
+-const defaultData = { current: {r: 0, g: 0, b: 0, a: 1 }, saved: [] };

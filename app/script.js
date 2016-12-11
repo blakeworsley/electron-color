@@ -30,9 +30,12 @@ const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
 const $alphaValue = $('.alpha-value');
 
+const $savedColors = $('.saved-colors');
+
 mainProcess.retrieveDataFromStorage();
 ipcRenderer.on('retrieved-colors', (event, data) => {
   updateInputs(data.current);
+  savedColors(data);
   updateColor();
 });
 
@@ -127,15 +130,14 @@ function updateColor(){
   let rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
   let hex = rgbToHex(rgba);
   updateGradientColor(red, green, blue, hex);
-  updateBackgroundColor(red, green, blue);
+  updateBackgroundColor(red, green, blue, alpha);
   $hexValue.html(hex);
   $rgbaValue.html(rgba);
   mainProcess.persistCurrentColor({ r:red, g:green, b:blue, a:alpha });
-  // console.log(rgbToHsl(red, green, blue));
 }
 
-function updateBackgroundColor(red, green, blue) {
-  $bodyBackground.css({'background-color': `rgba(${red}, ${green}, ${blue}, 0.5)`});
+function updateBackgroundColor(red, green, blue, alpha) {
+  $(`<style>input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}</style>`).appendTo('html');
 }
 
 function updateGradientColor(red, green, blue, hex) {
@@ -185,6 +187,15 @@ $eyedropperButton.on('click', () => {
     updateColor();
   });
 });
+
+function savedColors(data) {
+    data.saved.map((i, count) => {
+    if (count >= 20) {return};
+    $savedColors.append(`
+      <li class='saved-color saved-color-${count + 1}' style='background-color:${`rgba(${i.r}, ${i.g}, ${i.b}, ${i.a})`};'></li>
+    `);
+  });
+}
 
 $(document).keyup(function(e) {
   if (e.keyCode == 69) {$eyedropperView.toggle()};
