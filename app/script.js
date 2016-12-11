@@ -23,8 +23,6 @@ const $greenValueInputSlider = $('.green-value-input-slider');
 const $blueValueInputSlider = $('.blue-value-input-slider');
 const $alphaValueInputSlider = $('.alpha-value-input-slider');
 
-const $updateSlider = $('.update-slider');
-
 const $redValue = $('.red-value');
 const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
@@ -144,8 +142,10 @@ function updateColor(){
 }
 
 function updateSliderColor(red, green, blue, alpha) {
-  if($updateSlider){ $('head').removeClass($updateSlider) }
-  $(`<style class="update-slider">input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}</style>`).appendTo('head');
+  if($('.update-slider').length < 1) {
+    return $(`<style class="update-slider">input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}</style>`).appendTo('head');
+  }
+  $('.update-slider').html(`input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}`);
 }
 
 function updateGradientColor(red, green, blue, hex) {
