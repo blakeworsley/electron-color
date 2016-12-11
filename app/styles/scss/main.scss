@@ -1,16 +1,36 @@
 .app {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  
 }
 
 .body-background {
   flex-direction: column;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
+  background-color: $color-main-dark;
+  border-radius: 20px;
+  box-shadow: 1px 1px 20px 0px rbga(25,25,25,0.2);  
+}
+
+.controls {
+  padding: 25px;
+}
+
+h1, h2, h3, h4, h5, p {
+  font-family: 'Merriweather', serif;
+  color: white;
+}
+h1 {
+  font-size: 2em;
+  margin: 20px 0px;
+}
+h2 {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 1em;
 }
 
 .eyedropper-view {
@@ -20,21 +40,22 @@
   height: 50px;
   pointer-events: none;
   border-radius: 50px;
-  box-shadow: 0 0px 0px 2px #AAA, inset 0 0 0 2px #AAA;
+  box-shadow: 0 0px 0px 2px $color-main-light-medium, inset 0 0 0 2px $color-main-light-medium;
   cursor: crosshair;  
 }
 
 .rgba-copied::after, .hex-copied::after {
   content: 'copied to clipboard';
   background: white;
-  border: 3px solid #777;
+  border: 3px solid $color-main-medium;
   padding: 5px;
 }
 
 .gradient {
   width: 100%;
-  height: 200px;
+  height: 150px;
   position: relative;
+  border-radius: 0px 0px 20px 20px; 
 }
 
 .gradient-color, .gradient-white, .gradient-black {
@@ -43,12 +64,13 @@
   position: absolute;
   top: 0;
   opacity: 60%;
+  border-radius: 0px 0px 20px 20px;
 }
 
 .gradient-white {
-  background-image: -webkit-linear-gradient(#FFFFFF 0%, rgba(255,255,255,0.00) 100%);
-  background-image: -o-linear-gradient(#FFFFFF 0%, rgba(255,255,255,0.00) 100%);
-  background-image: linear-gradient(#FFFFFF 0%, rgba(255,255,255,0.00) 100%);
+  background-image: -webkit-linear-gradient($color-main-lightest 0%, rgba(255,255,255,0.00) 100%);
+  background-image: -o-linear-gradient($color-main-lightest 0%, rgba(255,255,255,0.00) 100%);
+  background-image: linear-gradient($color-main-lightest 0%, rgba(255,255,255,0.00) 100%);
 }
 
 .gradient-black {
@@ -58,13 +80,17 @@
 }
 
 .saved-colors {
+  justify-content: center;
   display: flex;
-  width: 110px;
-  height: 33px;
+  flex-direction: column;
 }
 
 .saved-color {
-  height: 20px;
-  width: 20px;
-  margin: 1px;
+  height: 30px;
+  width: 100px;
+}
+
+.rgba-container, .hex-container {
+  display: flex;
+  padding: 5px 0px;
 }

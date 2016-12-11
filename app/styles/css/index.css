@@ -46,9 +46,87 @@ table {
   border-spacing: 0; }
 
 /*# sourceMappingURL=reset.css.map */
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 10px;
+  width: 250px;
+  border-radius: 50px; }
+
+input[type=range]:focus {
+  outline: none; }
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 25px;
+  cursor: pointer;
+  background: #5e5e5e;
+  border-radius: 50px;
+  border: 3px solid #777; }
+
+input[type=range]::-webkit-slider-thumb {
+  border: 3px solid #f7f7f7;
+  box-shadow: inset 0px 0px 2px 1px #888;
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
+  background: #777;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -5px; }
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #5e5e5e;
+  box-shadow: 0px 0px 5px 1px #6a6a6a; }
+
+input:not([type=submit]):not([type=file]):not([type=range]):not([type=button]) {
+  background-color: #5e5e5e;
+  border: 3px solid #777;
+  padding: 5px;
+  border-radius: 10px;
+  font-size: 1em;
+  width: 60px;
+  text-align: center;
+  color: #f7f7f7; }
+
+input:focus:not([type=submit]):not([type=file]):not([type=range]) {
+  border: 3px solid white;
+  border-radius: 10px;
+  outline: none;
+  background-color: #5e5e5e;
+  box-shadow: 0px 0px 5px 1px #6a6a6a; }
+
+.input-value {
+  display: flex;
+  justify-content: center;
+  margin: 10px; }
+
+button {
+  background-color: #5e5e5e;
+  border: 3px solid #f7f7f7;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 1em;
+  text-align: center;
+  color: #f7f7f7; }
+
+button:disabled {
+  color: #777; }
+
+button:focus, button:hover {
+  border: 3px solid #919191;
+  border-radius: 10px;
+  outline: none;
+  background-color: #6a6a6a;
+  box-shadow: inset 0px 0px 5px 1px #f7f7f7; }
+
+button:focus {
+  background-color: #f7f7f7;
+  border: 3px solid #5e5e5e;
+  color: #5e5e5e;
+  box-shadow: inset 0px 0px 5px 1px #6a6a6a; }
+
 .app {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh; }
@@ -56,7 +134,27 @@ table {
 .body-background {
   flex-direction: column;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  background-color: #5e5e5e;
+  border-radius: 20px;
+  box-shadow: 1px 1px 20px 0px rbga(25, 25, 25, 0.2); }
+
+.controls {
+  padding: 25px; }
+
+h1, h2, h3, h4, h5, p {
+  font-family: 'Merriweather', serif;
+  color: white; }
+
+h1 {
+  font-size: 2em;
+  margin: 20px 0px; }
+
+h2 {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 1em; }
 
 .eyedropper-view {
   opacity: 0;
@@ -65,7 +163,7 @@ table {
   height: 50px;
   pointer-events: none;
   border-radius: 50px;
-  box-shadow: 0 0px 0px 2px #AAA, inset 0 0 0 2px #AAA;
+  box-shadow: 0 0px 0px 2px #848484, inset 0 0 0 2px #848484;
   cursor: crosshair; }
 
 .rgba-copied::after, .hex-copied::after {
@@ -76,20 +174,22 @@ table {
 
 .gradient {
   width: 100%;
-  height: 200px;
-  position: relative; }
+  height: 150px;
+  position: relative;
+  border-radius: 0px 0px 20px 20px; }
 
 .gradient-color, .gradient-white, .gradient-black {
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
-  opacity: 60%; }
+  opacity: 60%;
+  border-radius: 0px 0px 20px 20px; }
 
 .gradient-white {
-  background-image: -webkit-linear-gradient(#FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(#FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(#FFFFFF 0%, rgba(255, 255, 255, 0) 100%); }
+  background-image: -webkit-linear-gradient(white 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(white 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(white 0%, rgba(255, 255, 255, 0) 100%); }
 
 .gradient-black {
   background-image: -webkit-linear-gradient(transparent 0%, #000000 100%);
@@ -97,13 +197,16 @@ table {
   background-image: linear-gradient(transparent 0%, #000000 100%); }
 
 .saved-colors {
+  justify-content: center;
   display: flex;
-  width: 110px;
-  height: 33px; }
+  flex-direction: column; }
 
 .saved-color {
-  height: 20px;
-  width: 20px;
-  margin: 1px; }
+  height: 30px;
+  width: 100px; }
+
+.rgba-container, .hex-container {
+  display: flex;
+  padding: 5px 0px; }
 
 /*# sourceMappingURL=index.css.map */
