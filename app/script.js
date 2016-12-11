@@ -23,6 +23,8 @@ const $greenValueInputSlider = $('.green-value-input-slider');
 const $blueValueInputSlider = $('.blue-value-input-slider');
 const $alphaValueInputSlider = $('.alpha-value-input-slider');
 
+const $updateSlider = $('.update-slider');
+
 const $redValue = $('.red-value');
 const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
@@ -135,14 +137,15 @@ function updateColor(){
   let rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
   let hex = rgbToHex(rgba);
   updateGradientColor(red, green, blue, hex);
-  updateBackgroundColor(red, green, blue, alpha);
+  updateSliderColor(red, green, blue, alpha);
   $hexValue.html(hex);
   $rgbaValue.html(rgba);
   mainProcess.persistCurrentColor({ r:red, g:green, b:blue, a:alpha });
 }
 
-function updateBackgroundColor(red, green, blue, alpha) {
-  $(`<style>input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}</style>`).appendTo('html');
+function updateSliderColor(red, green, blue, alpha) {
+  if($updateSlider){ $('head').removeClass($updateSlider) }
+  $(`<style class="update-slider">input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}</style>`).appendTo('head');
 }
 
 function updateGradientColor(red, green, blue, hex) {
