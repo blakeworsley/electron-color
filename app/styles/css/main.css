@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$color-main-dark".
-        on line 15 of ./app/styles/scss/main.scss
+        on line 16 of ./app/styles/scss/main.scss
 
-10: }
-11: .electron-color-app {
-12:   flex-direction: column;
-13:   justify-content: center;
-14:   align-items: center;
-15:   background-color: $color-main-dark;
-16:   border-radius: 20px;
-17:   box-shadow: 1px 1px 20px 0px rbga(25,25,25,0.2);  
-18: }
-19: 
-20: .controls {
+11: }
+12: .electron-color-app {
+13:   flex-direction: column;
+14:   justify-content: center;
+15:   align-items: center;
+16:   background-color: $color-main-dark;
+17:   border-radius: 20px;
+18:   box-shadow: 1px 1px 20px 0px rbga(25,25,25,0.2);  
+19: }
+20: 
+21: .controls {
 
 Backtrace:
-./app/styles/scss/main.scss:15
+./app/styles/scss/main.scss:16
 /Users/blakeworsley/.rvm/gems/ruby-2.3.0@global/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/blakeworsley/.rvm/gems/ruby-2.3.0@global/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 /Users/blakeworsley/.rvm/gems/ruby-2.3.0@global/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
@@ -65,4 +65,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-main-dark\".\A         on line 15 of ./app/styles/scss/main.scss\A \A 10: }\A 11: .electron-color-app {\A 12:   flex-direction: column;\A 13:   justify-content: center;\A 14:   align-items: center;\A 15:   background-color: $color-main-dark;\A 16:   border-radius: 20px;\A 17:   box-shadow: 1px 1px 20px 0px rbga(25,25,25,0.2);  \A 18: }\A 19: \A 20: .controls {"; }
+  content: "Error: Undefined variable: \"$color-main-dark\".\A         on line 16 of ./app/styles/scss/main.scss\A \A 11: }\A 12: .electron-color-app {\A 13:   flex-direction: column;\A 14:   justify-content: center;\A 15:   align-items: center;\A 16:   background-color: $color-main-dark;\A 17:   border-radius: 20px;\A 18:   box-shadow: 1px 1px 20px 0px rbga(25,25,25,0.2);  \A 19: }\A 20: \A 21: .controls {"; }

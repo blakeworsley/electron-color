@@ -60,13 +60,11 @@ $greenValueInputSlider.on('mousemove change', () => handleIndividualColorValue($
 $blueValueInputSlider.on('mousemove change', () => handleIndividualColorValue($blueValueInputSlider, $blueValue, $blueValueInput));
 $alphaValueInputSlider.on('mousemove change', () => handleIndividualColorValue($alphaValueInputSlider, $alphaValue, $alphaValueInput));
 
-$rgbaValue.on('click', function() {
-  clipboard.writeText($rgbaValue.text().trim());
-});
-
-$hexValueButton.on('click', function() {
-  clipboard.writeText($hexValueButton.text().trim());
-});
+$rgbaValue.on('click', function() { clipboard.writeText($rgbaValue.text().trim()); });
+$hexValueButton.on('click', function() { clipboard.writeText($hexValueButton.text().trim()); });
+$eyedropperButton.on('click', () => { toggleEyedropper(); });
+$gradient.on('click', () => { grabAndChangeColor(); });
+$savedColors.on('click', () => { grabAndChangeColor(); });
 
 $saveColorButton.on('click', function() {
   let red = $redValueInput.val();
@@ -76,20 +74,6 @@ $saveColorButton.on('click', function() {
   mainProcess.saveCurrentColor({ r:red, g:green, b:blue, a:alpha });
   mainProcess.retrieveDataFromStorage();
 });
-
-$eyedropperButton.on('click', () => {
-  toggleEyedropper();
-});
-
-
-$gradient.on('click', () => {
-  grabAndChangeColor();
-});
-
-$savedColors.on('click', () => {
-  grabAndChangeColor();
-})
-
 
 function updateInputs(data){
   $redValueInput.val(data.r);
@@ -175,8 +159,8 @@ function updateGradientColor(red, green, blue, hex) {
 function updateEyedropperView() {
   const { position, dropperColor } = getDropperColor();
   $eyedropperView.css({
-    'top': `${position.y-70}px`,
-    'left': `${position.x-40}px`,
+    'top': `${position.y-67.5}px`,
+    'left': `${position.x-45}px`,
     'border': `solid 20px #${dropperColor}`,
   });
 }
