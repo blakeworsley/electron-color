@@ -2,7 +2,7 @@ const { ipcRenderer, remote, clipboard } = require('electron');
 const mainProcess = remote.require('./main');
 const robot = require("robotjs");
 
-const $bodyBackground = $('.body-background');
+const $electronColorApp = $('.electron-color-app');
 const $gradientColor = $('.gradient-color');
 const $rgbaValue = $('.rgba-value');
 const $hexValue = $('.hex-value');
@@ -11,6 +11,7 @@ const $rgbaContainer = $('.rgba-containter');
 const $saveColorButton = $('.save-color-button');
 
 const $eyedropperView = $('.eyedropper-view');
+const $colorPickerFullscreen = $('.color-picker-fullscreen');
 
 const $eyedropperButton = $('.eyedropper-button');
 const $hexValueButton = $('.hex-value-button');
@@ -33,6 +34,9 @@ const $alphaValue = $('.alpha-value');
 const $savedColors = $('.saved-colors');
 
 mainProcess.retrieveDataFromStorage();
+$colorPickerFullscreen.toggle();
+$eyedropperView.toggle();
+
 ipcRenderer.on('retrieved-colors', (event, data) => {
   updateInputs(data.current);
   savedColors(data);
@@ -64,10 +68,10 @@ $greenValueInput.on('change', () => handleIndividualColorValue($greenValueInput,
 $blueValueInput.on('change', () => handleIndividualColorValue($blueValueInput, $blueValue, $blueValueInputSlider));
 $alphaValueInput.on('change', () => handleIndividualColorValue($alphaValueInput, $alphaValue, $alphaValueInputSlider));
 
-$redValueInputSlider.on('change', () => handleIndividualColorValue($redValueInputSlider, $redValue, $redValueInput));
-$greenValueInputSlider.on('change', () => handleIndividualColorValue($greenValueInputSlider, $greenValue, $greenValueInput));
-$blueValueInputSlider.on('change', () => handleIndividualColorValue($blueValueInputSlider, $blueValue, $blueValueInput));
-$alphaValueInputSlider.on('change', () => handleIndividualColorValue($alphaValueInputSlider, $alphaValue, $alphaValueInput));
+$redValueInputSlider.on('mousemove change', () => handleIndividualColorValue($redValueInputSlider, $redValue, $redValueInput));
+$greenValueInputSlider.on('mousemove change', () => handleIndividualColorValue($greenValueInputSlider, $greenValue, $greenValueInput));
+$blueValueInputSlider.on('mousemove change', () => handleIndividualColorValue($blueValueInputSlider, $blueValue, $blueValueInput));
+$alphaValueInputSlider.on('mousemove change', () => handleIndividualColorValue($alphaValueInputSlider, $alphaValue, $alphaValueInput));
 
 $rgbaValue.on('click', function() {
   clipboard.writeText($rgbaValue.text().trim());
@@ -151,7 +155,6 @@ function updateEyedropperView() {
     'top': `${position.y-70}px`,
     'left': `${position.x-40}px`,
     'border': `solid 20px #${dropperColor}`,
-    'opacity': '1'
   });
 }
 
@@ -174,19 +177,42 @@ function hexToRgb(hex) {
     return {r:r, g:g, b:b, a:1};
 }
 
+
+let eyedropperToggled = false;
+
 $eyedropperButton.on('click', () => {
-  $eyedropperView.toggle();
-  updateEyedropperView();
-  $('html').on('mousemove', () => {
-    updateEyedropperView();
-  });
-  $('html').on('click', () => {
-    const hex = getDropperColor();
-    const rgb = hexToRgb(hex.dropperColor);
-    updateInputs(rgb);
-    updateColor();
-  });
+  toggleEyedropper();
 });
+
+function toggleDisplays(){
+  $colorPickerFullscreen.toggle();
+  $eyedropperView.toggle();
+  $electronColorApp.toggle();
+  $savedColors.toggle();
+}
+
+function toggleEyedropper() {
+  if(!eyedropperToggled){
+    toggleDisplays(); 
+    $colorPickerFullscreen.on('mousemove', () => {
+      updateEyedropperView();
+    });
+    $colorPickerFullscreen.on('click', () => {
+      const hex = getDropperColor();
+      const rgb = hexToRgb(hex.dropperColor);
+      console.log(hex, rgb, eyedropperToggled);
+      updateInputs(rgb);
+      updateColor();
+      toggleEyedropper()
+    });
+  }
+  if(eyedropperToggled){
+    $colorPickerFullscreen.off('click');
+    $colorPickerFullscreen.off('mousemove');
+    toggleDisplays();
+  }
+  eyedropperToggled ? eyedropperToggled = false : eyedropperToggled = true;
+}
 
 function savedColors(data) {
     data.saved.map((i, count) => {
@@ -199,5 +225,5 @@ function savedColors(data) {
 
 $(document).keyup(function(e) {
   if (e.keyCode == 69) {$eyedropperView.toggle()};
-  if (e.keyCode == 27) {$bodyBackground.toggle()};
+  if (e.keyCode == 27) {toggleEyedropper();};
 });
