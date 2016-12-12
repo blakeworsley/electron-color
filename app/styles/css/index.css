@@ -112,18 +112,15 @@ button {
 button:disabled {
   color: #777; }
 
-button:focus, button:hover {
-  border: 3px solid #919191;
+button:hover {
+  border: 3px solid #5e5e5e;
   border-radius: 10px;
-  outline: none;
-  background-color: #6a6a6a;
-  box-shadow: inset 0px 0px 5px 1px #f7f7f7; }
+  background-color: #f7f7f7;
+  box-shadow: inset 0px 0px 5px 1px #f7f7f7;
+  color: #5e5e5e; }
 
 button:focus {
-  background-color: #f7f7f7;
-  border: 3px solid #5e5e5e;
-  color: #5e5e5e;
-  box-shadow: inset 0px 0px 5px 1px #6a6a6a; }
+  outline: none; }
 
 .app {
   display: flex;
@@ -131,7 +128,12 @@ button:focus {
   align-items: center;
   height: 100vh; }
 
-.body-background {
+.color-picker-fullscreen {
+  height: 100vh;
+  width: 100vw;
+  cursor: crosshair; }
+
+.electron-color-app {
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -157,7 +159,7 @@ h2 {
   font-size: 1em; }
 
 .eyedropper-view {
-  opacity: 0;
+  border: solid 20px #919191;
   position: fixed;
   width: 50px;
   height: 50px;
@@ -176,7 +178,8 @@ h2 {
   width: 100%;
   height: 150px;
   position: relative;
-  border-radius: 0px 0px 20px 20px; }
+  border-radius: 0px 0px 20px 20px;
+  cursor: crosshair; }
 
 .gradient-color, .gradient-white, .gradient-black {
   width: 100%;
@@ -199,14 +202,26 @@ h2 {
 .saved-colors {
   justify-content: center;
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  cursor: crosshair; }
 
 .saved-color {
   height: 30px;
-  width: 100px; }
+  width: 30px;
+  margin-right: 50px;
+  transition: 0.3s; }
+
+.saved-color:hover {
+  width: 80px;
+  z-index: 1;
+  margin-right: 0px; }
 
 .rgba-container, .hex-container {
   display: flex;
   padding: 5px 0px; }
+
+.icon {
+  width: 25px;
+  height: 25px; }
 
 /*# sourceMappingURL=index.css.map */

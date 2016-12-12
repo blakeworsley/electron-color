@@ -4,8 +4,12 @@
   align-items: center;
   height: 100vh;
 }
-
-.body-background {
+.color-picker-fullscreen {
+  height: 100vh;
+  width: 100vw;
+  cursor: crosshair;  
+}
+.electron-color-app {
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -34,7 +38,7 @@ h2 {
 }
 
 .eyedropper-view {
-  opacity: 0;
+  border: solid 20px $color-main-light;
   position: fixed;
   width: 50px;
   height: 50px;
@@ -56,6 +60,7 @@ h2 {
   height: 150px;
   position: relative;
   border-radius: 0px 0px 20px 20px; 
+  cursor: crosshair;
 }
 
 .gradient-color, .gradient-white, .gradient-black {
@@ -83,14 +88,28 @@ h2 {
   justify-content: center;
   display: flex;
   flex-direction: column;
+  cursor: crosshair;  
 }
 
 .saved-color {
   height: 30px;
-  width: 100px;
+  width: 30px;
+  margin-right: 50px;
+  transition: 0.3s;
+}
+
+.saved-color:hover {
+  width: 80px;
+  z-index: 1;
+  margin-right: 0px;
 }
 
 .rgba-container, .hex-container {
   display: flex;
   padding: 5px 0px;
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
 }

@@ -2,16 +2,14 @@ const { ipcRenderer, remote, clipboard } = require('electron');
 const mainProcess = remote.require('./main');
 const robot = require("robotjs");
 
-const $bodyBackground = $('.body-background');
+const $electronColorApp = $('.electron-color-app');
 const $gradientColor = $('.gradient-color');
 const $rgbaValue = $('.rgba-value');
 const $hexValue = $('.hex-value');
+
 const $hexContainer = $('.hex-container');
 const $rgbaContainer = $('.rgba-containter');
 const $saveColorButton = $('.save-color-button');
-
-const $eyedropperView = $('.eyedropper-view');
-
 const $eyedropperButton = $('.eyedropper-button');
 const $hexValueButton = $('.hex-value-button');
 
@@ -30,13 +28,51 @@ const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
 const $alphaValue = $('.alpha-value');
 
+const $gradient = $('.gradient');
 const $savedColors = $('.saved-colors');
+const $savedColor = $('.saved-color');
+const $eyedropperView = $('.eyedropper-view');
+const $colorPickerFullscreen = $('.color-picker-fullscreen');
+
+let eyedropperToggled = false;
 
 mainProcess.retrieveDataFromStorage();
+$colorPickerFullscreen.toggle();
+$eyedropperView.toggle();
+
 ipcRenderer.on('retrieved-colors', (event, data) => {
   updateInputs(data.current);
   savedColors(data);
   updateColor();
+});
+
+$(document).keyup(function(e) {
+  if (e.keyCode == (27 || 69)) {toggleEyedropper();};
+});
+
+$redValueInput.on('change', () => handleIndividualColorValue($redValueInput, $redValue, $redValueInputSlider));
+$greenValueInput.on('change', () => handleIndividualColorValue($greenValueInput, $greenValue, $greenValueInputSlider));
+$blueValueInput.on('change', () => handleIndividualColorValue($blueValueInput, $blueValue, $blueValueInputSlider));
+$alphaValueInput.on('change', () => handleIndividualColorValue($alphaValueInput, $alphaValue, $alphaValueInputSlider));
+
+$redValueInputSlider.on('mousemove change', () => handleIndividualColorValue($redValueInputSlider, $redValue, $redValueInput));
+$greenValueInputSlider.on('mousemove change', () => handleIndividualColorValue($greenValueInputSlider, $greenValue, $greenValueInput));
+$blueValueInputSlider.on('mousemove change', () => handleIndividualColorValue($blueValueInputSlider, $blueValue, $blueValueInput));
+$alphaValueInputSlider.on('mousemove change', () => handleIndividualColorValue($alphaValueInputSlider, $alphaValue, $alphaValueInput));
+
+$rgbaValue.on('click', function() { clipboard.writeText($rgbaValue.text().trim()); });
+$hexValueButton.on('click', function() { clipboard.writeText($hexValueButton.text().trim()); });
+$eyedropperButton.on('click', () => { toggleEyedropper(); });
+$gradient.on('click', () => { grabAndChangeColor(); });
+$savedColors.on('click', () => { grabAndChangeColor(); });
+
+$saveColorButton.on('click', function() {
+  let red = $redValueInput.val();
+  let green = $greenValueInput.val();
+  let blue = $blueValueInput.val();
+  let alpha = $alphaValueInput.val();
+  mainProcess.saveCurrentColor({ r:red, g:green, b:blue, a:alpha });
+  mainProcess.retrieveDataFromStorage();
 });
 
 function updateInputs(data){
@@ -58,34 +94,6 @@ function handleIndividualColorValue( colorSelector, colorValue, alternateColorSe
   alternateColorSelector.val(color);
   updateColor();
 }
-
-$redValueInput.on('change', () => handleIndividualColorValue($redValueInput, $redValue, $redValueInputSlider));
-$greenValueInput.on('change', () => handleIndividualColorValue($greenValueInput, $greenValue, $greenValueInputSlider));
-$blueValueInput.on('change', () => handleIndividualColorValue($blueValueInput, $blueValue, $blueValueInputSlider));
-$alphaValueInput.on('change', () => handleIndividualColorValue($alphaValueInput, $alphaValue, $alphaValueInputSlider));
-
-$redValueInputSlider.on('change', () => handleIndividualColorValue($redValueInputSlider, $redValue, $redValueInput));
-$greenValueInputSlider.on('change', () => handleIndividualColorValue($greenValueInputSlider, $greenValue, $greenValueInput));
-$blueValueInputSlider.on('change', () => handleIndividualColorValue($blueValueInputSlider, $blueValue, $blueValueInput));
-$alphaValueInputSlider.on('change', () => handleIndividualColorValue($alphaValueInputSlider, $alphaValue, $alphaValueInput));
-
-$rgbaValue.on('click', function() {
-  clipboard.writeText($rgbaValue.text().trim());
-  $rgbaContainer.addClass('rgba-copied');
-});
-
-$hexValueButton.on('click', function() {
-  clipboard.writeText($hexValueButton.text().trim());
-  $hexContainer.addClass('hex-copied');
-});
-
-$saveColorButton.on('click', function() {
-  let red = $redValueInput.val();
-  let green = $greenValueInput.val();
-  let blue = $blueValueInput.val();
-  let alpha = $alphaValueInput.val();
-  mainProcess.saveCurrentColor({ r:red, g:green, b:blue, a:alpha });
-});
 
 function rgbToHex(rgb){
   rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
@@ -130,14 +138,17 @@ function updateColor(){
   let rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
   let hex = rgbToHex(rgba);
   updateGradientColor(red, green, blue, hex);
-  updateBackgroundColor(red, green, blue, alpha);
+  updateSliderColor(red, green, blue, alpha);
   $hexValue.html(hex);
   $rgbaValue.html(rgba);
   mainProcess.persistCurrentColor({ r:red, g:green, b:blue, a:alpha });
 }
 
-function updateBackgroundColor(red, green, blue, alpha) {
-  $(`<style>input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}</style>`).appendTo('html');
+function updateSliderColor(red, green, blue, alpha) {
+  if($('.update-slider').length < 1) {
+    return $(`<style class="update-slider">input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}</style>`).appendTo('head');
+  }
+  $('.update-slider').html(`input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}`);
 }
 
 function updateGradientColor(red, green, blue, hex) {
@@ -148,10 +159,9 @@ function updateGradientColor(red, green, blue, hex) {
 function updateEyedropperView() {
   const { position, dropperColor } = getDropperColor();
   $eyedropperView.css({
-    'top': `${position.y-70}px`,
-    'left': `${position.x-40}px`,
+    'top': `${position.y-67.5}px`,
+    'left': `${position.x-45}px`,
     'border': `solid 20px #${dropperColor}`,
-    'opacity': '1'
   });
 }
 
@@ -174,30 +184,48 @@ function hexToRgb(hex) {
     return {r:r, g:g, b:b, a:1};
 }
 
-$eyedropperButton.on('click', () => {
+function toggleDisplays(){
+  $colorPickerFullscreen.toggle();
   $eyedropperView.toggle();
-  updateEyedropperView();
-  $('html').on('mousemove', () => {
-    updateEyedropperView();
-  });
-  $('html').on('click', () => {
-    const hex = getDropperColor();
-    const rgb = hexToRgb(hex.dropperColor);
-    updateInputs(rgb);
-    updateColor();
-  });
-});
-
-function savedColors(data) {
-    data.saved.map((i, count) => {
-    if (count >= 20) {return};
-    $savedColors.append(`
-      <li class='saved-color saved-color-${count + 1}' style='background-color:${`rgba(${i.r}, ${i.g}, ${i.b}, ${i.a})`};'></li>
-    `);
-  });
+  $electronColorApp.toggle();
+  $savedColors.toggle();
 }
 
-$(document).keyup(function(e) {
-  if (e.keyCode == 69) {$eyedropperView.toggle()};
-  if (e.keyCode == 27) {$bodyBackground.toggle()};
-});
+function grabAndChangeColor() {
+  const hex = getDropperColor();
+  const rgb = hexToRgb(hex.dropperColor);
+  console.log(hex, rgb, eyedropperToggled);
+  updateInputs(rgb);
+  updateColor();
+}
+
+function toggleEyedropper() {
+  if(!eyedropperToggled){
+    toggleDisplays(); 
+    $colorPickerFullscreen.on('mousemove', () => {
+      updateEyedropperView();
+    });
+    $colorPickerFullscreen.on('click', () => {
+      grabAndChangeColor();
+      toggleEyedropper()
+    });
+  }
+  if(eyedropperToggled){
+    $colorPickerFullscreen.off('click');
+    $colorPickerFullscreen.off('mousemove');
+    toggleDisplays();
+  }
+  eyedropperToggled ? eyedropperToggled = false : eyedropperToggled = true;
+}
+
+function savedColors(data) {
+  $savedColors.empty()
+  data.saved.map((i, count) => {
+    if (count >= 20) {return}
+    else  {
+      $savedColors.append(`
+        <li class='saved-color saved-color-${count + 1}' style='background-color:${`rgba(${i.r}, ${i.g}, ${i.b}, ${i.a})`};'></li>
+      `);
+    }
+  });
+}

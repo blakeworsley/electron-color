@@ -68,16 +68,17 @@ button {
 button:disabled {
   color: $color-main-medium
 }
-button:focus, button:hover {
-  border: 3px solid $color-main-light;
+button:hover {
+  border: 3px solid $color-main-dark;
   border-radius: 10px;
-  outline: none;
-  background-color: $color-main-medium-dark;
+  background-color: $color-main-lighter;
   box-shadow: inset 0px 0px 5px 1px $color-main-lighter;
+  color: $color-main-dark;
 }
 button:focus {
-  background-color: $color-main-lighter;
-  border: 3px solid $color-main-dark;
-  color: $color-main-dark;
-  box-shadow: inset 0px 0px 5px 1px $color-main-medium-dark;
+  outline: none;
+  // background-color: $color-main-lighter;
+  // border: 3px solid $color-main-dark;
+  // color: $color-main-dark;
+  // box-shadow: inset 0px 0px 5px 1px $color-main-medium-dark;
 }
