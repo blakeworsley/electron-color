@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, Menu, BrowserWindow } = require('electron');
 const storage = require('electron-storage');
 
 let mainWindow = null;
@@ -13,10 +13,10 @@ app.on('ready', () => {
     transparent: true,
   });
   mainWindow.loadURL(`file://${__dirname}/index.html`);
+  Menu.setApplicationMenu(menu);
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
   });
-  console.log(mainWindow);
 });
 
 const doesStorageExist = () => {
@@ -24,7 +24,6 @@ const doesStorageExist = () => {
     .then(itDoes => {
       if (!itDoes) {
         storage.set('saved-colors', defaultData)
-          .then(() => console.log('The file was successfully written to the storage'))
           .catch((err) => console.log(err));
       }
     });
@@ -34,8 +33,7 @@ const retrieveDataFromStorage = exports.retrieveDataFromStorage = () => {
   storage.get('saved-colors')
     .then(data => {
       mainWindow.webContents.send('retrieved-colors', data);
-    })
-    .catch(err => {
+    }).catch(err => {
       console.log(err);
     });
 };
@@ -58,6 +56,7 @@ const saveCurrentColor = exports.saveCurrentColor = (color) => {
       data.saved.unshift(color);
       let updatedColorArray = { current: data.current, saved: data.saved };
       storage.set('saved-colors', updatedColorArray)
+        .then(() => retrieveDataFromStorage())
         .catch((err) => console.log(err));
     })
     .catch(err => console.log(err));
@@ -65,3 +64,33 @@ const saveCurrentColor = exports.saveCurrentColor = (color) => {
 
 //data model//
 const defaultData = { "current": {"r": 0, "g": 0, "b": 0, "a": 1 }, "saved": [] };
+
+const template = [
+  {
+    role: 'window',
+    submenu: [
+      {
+        label: 'Dev Tools',
+        accelerator: 'Cmd+Opt+I',
+        role: 'toggledevtools'
+      },
+      {
+        label: 'Close',
+        accelerator: 'CmdOrCtrl+W',
+        role: 'close'
+      },
+      {
+        label: 'Minimize',
+        accelerator: 'CmdOrCtrl+M',
+        role: 'minimize'
+      },
+      {
+        label: 'Quit',
+        accelerator: 'CmdOrCtrl+Q',
+        role: 'quit'
+      },
+    ]
+  }
+];
+
+const menu = Menu.buildFromTemplate(template);
