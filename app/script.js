@@ -41,14 +41,6 @@ const $colorPickerFullscreen = $('.color-picker-fullscreen');
 
 let eyedropperToggled = false;
 
-function clickThrough(){
-  return mainProcess.clickThroughWindow(true);
-}
-
-function dontClickThrough(){
-  return mainProcess.clickThroughWindow(false)
-}
-
 mainProcess.retrieveDataFromStorage();
 $colorPickerFullscreen.toggle();
 $eyedropperView.toggle();
