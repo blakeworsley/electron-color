@@ -2,6 +2,7 @@ const { ipcRenderer, remote, clipboard } = require('electron');
 const mainProcess = remote.require('./main');
 const robot = require("robotjs");
 
+const $transparentBackground = $('.app');
 const $electronColorApp = $('.electron-color-app');
 const $gradientColor = $('.gradient-color');
 const $rgbaValue = $('.rgba-value');
@@ -39,6 +40,15 @@ const $eyedropperView = $('.eyedropper-view');
 const $colorPickerFullscreen = $('.color-picker-fullscreen');
 
 let eyedropperToggled = false;
+
+
+// mainProcess.onRefocus() .on('focus')
+// $transparentBackground.mousemove(function (event) {
+//    if(event.target === this) { 
+//      return mainProcess.clickThroughWindow(true); } 
+//    else { 
+//      return mainProcess.clickThroughWindow(false); }
+// });
 
 mainProcess.retrieveDataFromStorage();
 $colorPickerFullscreen.toggle();
@@ -93,7 +103,6 @@ $saveColorButton.on('click', function() {
   let blue = $blueValueInput.val();
   let alpha = $alphaValueInput.val();
   mainProcess.saveCurrentColor({ r:red, g:green, b:blue, a:alpha });
-  mainProcess.retrieveDataFromStorage();
 });
 
 function updateInputs(data){
