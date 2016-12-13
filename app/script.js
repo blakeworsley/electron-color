@@ -41,14 +41,13 @@ const $colorPickerFullscreen = $('.color-picker-fullscreen');
 
 let eyedropperToggled = false;
 
+function clickThrough(){
+  return mainProcess.clickThroughWindow(true);
+}
 
-// mainProcess.onRefocus() .on('focus')
-// $transparentBackground.mousemove(function (event) {
-//    if(event.target === this) { 
-//      return mainProcess.clickThroughWindow(true); } 
-//    else { 
-//      return mainProcess.clickThroughWindow(false); }
-// });
+function dontClickThrough(){
+  return mainProcess.clickThroughWindow(false)
+}
 
 mainProcess.retrieveDataFromStorage();
 $colorPickerFullscreen.toggle();
@@ -242,7 +241,6 @@ function toggleDisplays(){
 function grabAndChangeColor() {
   const hex = getDropperColor();
   const rgb = hexToRgb(hex.dropperColor);
-  console.log(hex, rgb, eyedropperToggled);
   updateInputs(rgb);
   updateColor();
 }

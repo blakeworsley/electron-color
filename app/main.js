@@ -24,19 +24,10 @@ const doesStorageExist = () => {
     .then(itDoes => {
       if (!itDoes) {
         storage.set('saved-colors', defaultData)
-          .then(() => console.log('The file was successfully written to the storage'))
           .catch((err) => console.log(err));
       }
     });
 };
-
-// const onRefocus() = exports.onRefocus = () => {
-//   return mainWindow.setIgnoreMouseEvents(false)
-// }
-
-// const clickThroughWindow = exports.clickThroughWindow = (mouseInApp) => {
-//   return mainWindow.setIgnoreMouseEvents(mouseInApp)
-// }
 
 const retrieveDataFromStorage = exports.retrieveDataFromStorage = () => {
   storage.get('saved-colors')
@@ -79,6 +70,11 @@ const template = [
     role: 'window',
     submenu: [
       {
+        label: 'Dev Tools',
+        accelerator: 'Cmd+Opt+I',
+        role: 'toggledevtools'
+      },
+      {
         label: 'Close',
         accelerator: 'CmdOrCtrl+W',
         role: 'close'
@@ -98,4 +94,3 @@ const template = [
 ];
 
 const menu = Menu.buildFromTemplate(template);
-console.log(menu);
