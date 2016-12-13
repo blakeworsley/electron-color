@@ -191,7 +191,7 @@ function updateSliderColor(red, green, blue, alpha) {
 
 function updateGradientColor(hsla, hex) {
   const [ h, s, l, a ] = hsla;
-  const gradient = `linear-gradient(-270deg, hsla(${h},100%,50%, 1) 0%, ${hex} 0%)`;
+  const gradient = `linear-gradient(-270deg, hsla(${h},100%,50%, 0) 0%, ${hex} 100%)`;
   $gradientColor.css({'background-image': gradient});
 }
 
