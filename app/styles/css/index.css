@@ -168,11 +168,11 @@ h2 {
   box-shadow: 0 0px 0px 2px #848484, inset 0 0 0 2px #848484;
   cursor: crosshair; }
 
-.rgba-copied::after, .hex-copied::after {
-  content: 'copied to clipboard';
-  background: white;
-  border: 3px solid #777;
-  padding: 5px; }
+.copied-to-clipboard-rgba, .copied-to-clipboard-hex, .copied-to-clipboard-hsla {
+  color: #848484;
+  font-family: 'Merriweather', serif;
+  border-radius: 10px;
+  padding: 6px; }
 
 .gradient {
   width: 100%;
@@ -186,7 +186,6 @@ h2 {
   height: 100%;
   position: absolute;
   top: 0;
-  opacity: 60%;
   border-radius: 0px 0px 20px 20px; }
 
 .gradient-white {
@@ -216,9 +215,13 @@ h2 {
   z-index: 1;
   margin-right: 0px; }
 
-.rgba-container, .hex-container {
+.color-container {
+  width: 100%;
   display: flex;
   padding: 5px 0px; }
+  .color-container .color-containter-button {
+    flex: 2;
+    justify-content: flex-end; }
 
 .icon {
   width: 25px;

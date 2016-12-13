@@ -9,9 +9,11 @@ const $hexValue = $('.hex-value');
 
 const $hexContainer = $('.hex-container');
 const $rgbaContainer = $('.rgba-containter');
+const $hslaContainer = $('.hsla-containter');
 const $saveColorButton = $('.save-color-button');
 const $eyedropperButton = $('.eyedropper-button');
 const $hexValueButton = $('.hex-value-button');
+const $hslaValueButton = $('.hsla-value-button');
 
 const $redValueInput = $('.red-value-input');
 const $greenValueInput = $('.green-value-input');
@@ -27,6 +29,8 @@ const $redValue = $('.red-value');
 const $greenValue = $('.green-value');
 const $blueValue = $('.blue-value');
 const $alphaValue = $('.alpha-value');
+
+const $hslaValue = $('.hsla-value');
 
 const $gradient = $('.gradient');
 const $savedColors = $('.saved-colors');
@@ -60,8 +64,25 @@ $greenValueInputSlider.on('mousemove change', () => handleIndividualColorValue($
 $blueValueInputSlider.on('mousemove change', () => handleIndividualColorValue($blueValueInputSlider, $blueValue, $blueValueInput));
 $alphaValueInputSlider.on('mousemove change', () => handleIndividualColorValue($alphaValueInputSlider, $alphaValue, $alphaValueInput));
 
-$rgbaValue.on('click', function() { clipboard.writeText($rgbaValue.text().trim()); });
-$hexValueButton.on('click', function() { clipboard.writeText($hexValueButton.text().trim()); });
+$rgbaValue.on('click', function() { 
+  clipboard.writeText($rgbaValue.text().trim()); 
+  copied('rgba');
+  });
+$hexValueButton.on('click', function() { 
+  clipboard.writeText($hexValueButton.text().trim());
+  copied('hex');
+});
+$hslaValue.on('click', function() { 
+  clipboard.writeText($hslaValue.text().trim());
+  copied('hsla');
+});
+
+function copied(value) {
+    $(`.copied-to-clipboard-${value}`).fadeIn('fast', () => {
+       $(`.copied-to-clipboard-${value}`).delay(750).fadeOut(); 
+    });
+}
+
 $eyedropperButton.on('click', () => { toggleEyedropper(); });
 $gradient.on('click', () => { grabAndChangeColor(); });
 $savedColors.on('click', () => { grabAndChangeColor(); });
@@ -103,24 +124,39 @@ function rgbToHex(rgb){
   ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 
-function rgbToHsl(r, g, b){
-    r /= 255, g /= 255, b /= 255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    var h, s, l = (max + min) / 2;
 
-    if(max == min){
-        h = s = 0; // achromatic
-    }else{
-        var d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch(max){
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
+function rgbToHsla(rgbArr){
+    var r1 = rgbArr[0] / 255;
+    var g1 = rgbArr[1] / 255;
+    var b1 = rgbArr[2] / 255;
+ 
+    var maxColor = Math.max(r1,g1,b1);
+    var minColor = Math.min(r1,g1,b1);
+    var L = (maxColor + minColor) / 2 ;
+    var S = 0;
+    var H = 0;
+    if(maxColor != minColor){
+        if(L < 0.5){
+            S = (maxColor - minColor) / (maxColor + minColor);
+        }else{
+            S = (maxColor - minColor) / (2.0 - maxColor - minColor);
         }
-        h /= 6;
+        if(r1 == maxColor){
+            H = (g1-b1) / (maxColor - minColor);
+        }else if(g1 == maxColor){
+            H = 2.0 + (b1 - r1) / (maxColor - minColor);
+        }else{
+            H = 4.0 + (r1 - g1) / (maxColor - minColor);
+        }
     }
-    return [h, s, l];
+    L = Math.round(L * 100);
+    S = Math.round(S * 100);
+    H = Math.round(H * 60);
+    if(H<0){
+        H += 360;
+    }
+    var result = [H, S, L, rgbArr[3]];
+    return result;
 }
 
 function validateMaxColorValue(inputValue, max) {
@@ -137,10 +173,12 @@ function updateColor(){
   let alpha = $alphaValueInput.val();
   let rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
   let hex = rgbToHex(rgba);
-  updateGradientColor(red, green, blue, hex);
+  let hsla = rgbToHsla([red,green,blue,alpha]);
+  updateGradientColor(hsla, hex);
   updateSliderColor(red, green, blue, alpha);
   $hexValue.html(hex);
   $rgbaValue.html(rgba);
+  $hslaValue.html(`hsla(${hsla[0]}, ${hsla[1]}%, ${hsla[2]}%, ${alpha})`);
   mainProcess.persistCurrentColor({ r:red, g:green, b:blue, a:alpha });
 }
 
@@ -151,8 +189,9 @@ function updateSliderColor(red, green, blue, alpha) {
   $('.update-slider').html(`input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}`);
 }
 
-function updateGradientColor(red, green, blue, hex) {
-  const gradient = `linear-gradient(-270deg, rgba(${red},${green},${blue}, 0) 0%, ${hex} 100%)`;
+function updateGradientColor(hsla, hex) {
+  const [ h, s, l, a ] = hsla;
+  const gradient = `linear-gradient(-270deg, hsla(${h},100%,50%, 1) 0%, ${hex} 0%)`;
   $gradientColor.css({'background-image': gradient});
 }
 
