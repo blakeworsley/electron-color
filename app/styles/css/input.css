@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$color-main-dark".
-        on line 14 of ./app/styles/scss/input.scss
+        on line 16 of ./app/styles/scss/input.scss
 
-9: }
-10: input[type=range]::-webkit-slider-runnable-track {
-11:   width: 100%;
-12:   height: 25px;
-13:   cursor: pointer;
-14:   background: $color-main-dark;
-15:   border-radius: 50px;
-16:   border: 3px solid $color-main-medium;
-17: }
-18: input[type=range]::-webkit-slider-thumb {
-19:   border: 3px solid $color-main-lighter;
+11: 
+12: input[type=range]::-webkit-slider-runnable-track {
+13:   width: 100%;
+14:   height: 25px;
+15:   cursor: pointer;
+16:   background: $color-main-dark;
+17:   border-radius: 50px;
+18:   border: 3px solid $color-main-medium;
+19: }
+20: 
+21: input[type=range]::-webkit-slider-thumb {
 
 Backtrace:
-./app/styles/scss/input.scss:14
+./app/styles/scss/input.scss:16
 /Users/blakeworsley/.rvm/gems/ruby-2.3.0@global/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/blakeworsley/.rvm/gems/ruby-2.3.0@global/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 /Users/blakeworsley/.rvm/gems/ruby-2.3.0@global/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
@@ -65,4 +65,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-main-dark\".\A         on line 14 of ./app/styles/scss/input.scss\A \A 9: }\A 10: input[type=range]::-webkit-slider-runnable-track {\A 11:   width: 100%;\A 12:   height: 25px;\A 13:   cursor: pointer;\A 14:   background: $color-main-dark;\A 15:   border-radius: 50px;\A 16:   border: 3px solid $color-main-medium;\A 17: }\A 18: input[type=range]::-webkit-slider-thumb {\A 19:   border: 3px solid $color-main-lighter;"; }
+  content: "Error: Undefined variable: \"$color-main-dark\".\A         on line 16 of ./app/styles/scss/input.scss\A \A 11: \A 12: input[type=range]::-webkit-slider-runnable-track {\A 13:   width: 100%;\A 14:   height: 25px;\A 15:   cursor: pointer;\A 16:   background: $color-main-dark;\A 17:   border-radius: 50px;\A 18:   border: 3px solid $color-main-medium;\A 19: }\A 20: \A 21: input[type=range]::-webkit-slider-thumb {"; }

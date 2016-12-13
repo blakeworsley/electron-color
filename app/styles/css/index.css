@@ -220,6 +220,7 @@ h2 {
   display: flex;
   padding: 5px 0px; }
   .color-container .color-containter-button {
+    max-width: 250px;
     flex: 2;
     justify-content: flex-end; }
 
