@@ -13,7 +13,7 @@
         <button class='eyedropper-button'>
           <img src='./img/eyedropper.svg' class='icon'/>
         </button>
-        <button class='save-color-button'>Save Color</button>        
+        <button class='save-color-button'>Save Color</button>
         <div class='input-value'>
           <h2>R</h2>
           <input class='red-value-input' value='0' type='number' min='0' max='255' step='1' />
@@ -39,19 +39,19 @@
           <button class='color-containter-button rgba-value'>
             rgba(<span class='red-value'>0</span>, <span class='green-value'>0</span>, <span class='blue-value'>0</span>, <span class='alpha-value'>1</span>)
           </button>
-          <div class='copied-to-clipboard-rgba' hidden>Copied</div>          
+          <div class='copied-to-clipboard-rgba' hidden>Copied</div>
         </div>
         <div class='color-container hex-container'>
           <h2>Hex Value: </h2>
           <button class='color-containter-button hex-value-button'><span class='hex-value'>#000000</span></button>
-          <div class='copied-to-clipboard-hex' hidden>Copied</div>                    
+          <div class='copied-to-clipboard-hex' hidden>Copied</div>
         </div>
         <div class='color-container hsla-container'>
           <h2>HSLA Value: </h2>
           <button class='color-containter-button hsla-value'>
             hsla(<span class='hue-value'>0</span>, <span class='saturation-value'>0</span>, <span class='lightness-value'>0</span>, <span class='alpha-value'>1</span>)
           </button>
-          <div class='copied-to-clipboard-hsla' hidden>Copied</div>                    
+          <div class='copied-to-clipboard-hsla' hidden>Copied</div>
         </div>
       </section>
       <section class='gradient'>
@@ -63,12 +63,10 @@
     <ul class='saved-colors'></ul>
     <section class='color-picker-fullscreen'></section>
     <div class='eyedropper-view'></div>
-    
 
-    <script src="jquery.js"></script>
-    <script>
-      try { $ = jQuery = module.exports; } catch(e) {}
-    </script>
-    <script src='script.js'></script>
+
+
+
+    <script>require('./script');</script>
   </body>
 </html>

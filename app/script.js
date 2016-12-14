@@ -1,20 +1,18 @@
+const $ = require('jquery');
+
 const { ipcRenderer, remote, clipboard } = require('electron');
 const mainProcess = remote.require('./main');
 const robot = require("robotjs");
 
-const $transparentBackground = $('.app');
 const $electronColorApp = $('.electron-color-app');
 const $gradientColor = $('.gradient-color');
 const $rgbaValue = $('.rgba-value');
 const $hexValue = $('.hex-value');
 
-const $hexContainer = $('.hex-container');
-const $rgbaContainer = $('.rgba-containter');
-const $hslaContainer = $('.hsla-containter');
 const $saveColorButton = $('.save-color-button');
 const $eyedropperButton = $('.eyedropper-button');
 const $hexValueButton = $('.hex-value-button');
-const $hslaValueButton = $('.hsla-value-button');
+
 
 const $redValueInput = $('.red-value-input');
 const $greenValueInput = $('.green-value-input');
@@ -35,7 +33,6 @@ const $hslaValue = $('.hsla-value');
 
 const $gradient = $('.gradient');
 const $savedColors = $('.saved-colors');
-const $savedColor = $('.saved-color');
 const $eyedropperView = $('.eyedropper-view');
 const $colorPickerFullscreen = $('.color-picker-fullscreen');
 
@@ -65,22 +62,22 @@ $greenValueInputSlider.on('mousemove change', () => handleIndividualColorValue($
 $blueValueInputSlider.on('mousemove change', () => handleIndividualColorValue($blueValueInputSlider, $blueValue, $blueValueInput));
 $alphaValueInputSlider.on('mousemove change', () => handleIndividualColorValue($alphaValueInputSlider, $alphaValue, $alphaValueInput));
 
-$rgbaValue.on('click', function() { 
-  clipboard.writeText($rgbaValue.text().trim()); 
+$rgbaValue.on('click', function() {
+  clipboard.writeText($rgbaValue.text().trim());
   copied('rgba');
   });
-$hexValueButton.on('click', function() { 
+$hexValueButton.on('click', function() {
   clipboard.writeText($hexValueButton.text().trim());
   copied('hex');
 });
-$hslaValue.on('click', function() { 
+$hslaValue.on('click', function() {
   clipboard.writeText($hslaValue.text().trim());
   copied('hsla');
 });
 
 function copied(value) {
     $(`.copied-to-clipboard-${value}`).fadeIn('fast', () => {
-       $(`.copied-to-clipboard-${value}`).delay(750).fadeOut(); 
+       $(`.copied-to-clipboard-${value}`).delay(750).fadeOut();
     });
 }
 
@@ -129,21 +126,21 @@ function rgbToHsla(rgbArr){
     var r1 = rgbArr[0] / 255;
     var g1 = rgbArr[1] / 255;
     var b1 = rgbArr[2] / 255;
- 
+
     var maxColor = Math.max(r1,g1,b1);
     var minColor = Math.min(r1,g1,b1);
     var L = (maxColor + minColor) / 2 ;
     var S = 0;
     var H = 0;
-    if(maxColor != minColor){
+    if(maxColor !== minColor){
         if(L < 0.5){
             S = (maxColor - minColor) / (maxColor + minColor);
         }else{
             S = (maxColor - minColor) / (2.0 - maxColor - minColor);
         }
-        if(r1 == maxColor){
+        if(r1 === maxColor){
             H = (g1-b1) / (maxColor - minColor);
-        }else if(g1 == maxColor){
+        }else if(g1 === maxColor){
             H = 2.0 + (b1 - r1) / (maxColor - minColor);
         }else{
             H = 4.0 + (r1 - g1) / (maxColor - minColor);
@@ -239,13 +236,13 @@ function grabAndChangeColor() {
 
 function toggleEyedropper() {
   if(!eyedropperToggled){
-    toggleDisplays(); 
+    toggleDisplays();
     $colorPickerFullscreen.on('mousemove', () => {
       updateEyedropperView();
     });
     $colorPickerFullscreen.on('click', () => {
       grabAndChangeColor();
-      toggleEyedropper()
+      toggleEyedropper();
     });
   }
   if(eyedropperToggled){
@@ -257,10 +254,10 @@ function toggleEyedropper() {
 }
 
 function savedColors(data) {
-  $savedColors.empty()
+  $savedColors.empty();
   data.saved.map((i, count) => {
     if (count >= 20) {return}
-    else  {
+   else  {
       $savedColors.append(`
         <li class='saved-color saved-color-${count + 1}' style='background-color:${`rgba(${i.r}, ${i.g}, ${i.b}, ${i.a})`};'></li>
       `);

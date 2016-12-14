@@ -5,7 +5,8 @@
   "main": "app/main.js",
   "scripts": {
     "start": "electron .",
-    "test": "mocha tests/test.js"
+    "test": "mocha tests/test.js",
+    "postinstall": "electron-rebuild"
   },
   "repository": {
     "type": "git",
