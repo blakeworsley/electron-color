@@ -9,11 +9,23 @@
   <body class='app'>
     <section class='electron-color-app'>
       <section class='controls'>
-        <h1>Electron Color</h1>
-        <button class='eyedropper-button'>
-          <img src='./img/eyedropper.svg' class='icon'/>
-        </button>
-        <button class='save-color-button'>Save Color</button>        
+        <header>
+          <section class='title-bar'>
+            <section class='header-title-section'>
+              <h1>Electron Color</h1>
+              <section class='header-buttons'>
+                <button class='eyedropper-button'>
+                  <img src='./img/eyedropper.svg' class='icon'/>
+                </button>
+                <button class='save-color-button'>Save Color</button>  
+              </section>
+            </section>
+            <button class='current-color'>
+              <img src='./img/eyedropper.svg' class='icon current-color-dropper'/>
+            </button>
+          </section>
+        </header>
+      
         <div class='input-value'>
           <h2>R</h2>
           <input class='red-value-input' value='0' type='number' min='0' max='255' step='1' />
@@ -35,23 +47,23 @@
           <input class='alpha-value-input-slider' value='1' type='range' min='0' max='1' step='0.01' />
         </div>
         <div class='color-container rgba-container'>
-          <h2>RGBa Value: </h2>
+          <h2>RGBA Value: </h2>
+          <div class='copied-to-clipboard-rgba' hidden>Copied</div>          
           <button class='color-containter-button rgba-value'>
             rgba(<span class='red-value'>0</span>, <span class='green-value'>0</span>, <span class='blue-value'>0</span>, <span class='alpha-value'>1</span>)
           </button>
-          <div class='copied-to-clipboard-rgba' hidden>Copied</div>          
         </div>
         <div class='color-container hex-container'>
           <h2>Hex Value: </h2>
-          <button class='color-containter-button hex-value-button'><span class='hex-value'>#000000</span></button>
           <div class='copied-to-clipboard-hex' hidden>Copied</div>                    
+          <button class='color-containter-button hex-value-button'><span class='hex-value'>#000000</span></button>
         </div>
         <div class='color-container hsla-container'>
           <h2>HSLA Value: </h2>
+          <div class='copied-to-clipboard-hsla' hidden>Copied</div>                    
           <button class='color-containter-button hsla-value'>
             hsla(<span class='hue-value'>0</span>, <span class='saturation-value'>0</span>, <span class='lightness-value'>0</span>, <span class='alpha-value'>1</span>)
           </button>
-          <div class='copied-to-clipboard-hsla' hidden>Copied</div>                    
         </div>
       </section>
       <section class='gradient'>

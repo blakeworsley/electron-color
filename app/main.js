@@ -19,6 +19,7 @@ app.on('ready', () => {
   });
 });
 
+
 const doesStorageExist = () => {
   storage.isPathExists('saved-colors.json')
     .then(itDoes => {
@@ -63,7 +64,9 @@ const saveCurrentColor = exports.saveCurrentColor = (color) => {
 };
 
 //data model//
-const defaultData = { "current": {"r": 0, "g": 0, "b": 0, "a": 1 }, "saved": [] };
+const defaultColorPalette = [{"r":"255","g":"0","b":"69","a":"1"},{"r":"255","g":"0","b":"154","a":"1"},{"r":"255","g":"0","b":"255","a":"1"},{"r":"143","g":"0","b":"255","a":"1"},{"r":"68","g":"0","b":"255","a":"1"},{"r":"0","g":"0","b":"255","a":"1"},{"r":"0","g":"79","b":"255","a":"1"},{"r":"0","g":"160","b":"255","a":"1"},{"r":"0","g":"255","b":"255","a":"1"},{"r":"0","g":"255","b":"163","a":"1"},{"r":"0","g":"255","b":"86","a":"1"},{"r":"0","g":"255","b":"0","a":"1"},{"r":"89","g":"255","b":"0","a":"1"},{"r":"170","g":"255","b":"0","a":"1"},{"r":"255","g":"255","b":"0","a":"1"},{"r":"255","g":"157","b":"0","a":"1"},{"r":"255","g":"79","b":"0","a":"1"},{"r":"255","g":"0","b":"0","a":"1"},{"r":"167","g":"0","b":"0","a":"1"},{"r":"71","g":"0","b":"0","a":"1"}]
+
+const defaultData = {"current":{"r":"255","g":"0","b":"69","a":"1"},"saved": defaultColorPalette};
 
 const template = [
   {
@@ -71,7 +74,7 @@ const template = [
     submenu: [
       {
         label: 'Dev Tools',
-        accelerator: 'Cmd+Opt+I',
+        accelerator: 'Cmd+I',
         role: 'toggledevtools'
       },
       {
@@ -94,3 +97,4 @@ const template = [
 ];
 
 const menu = Menu.buildFromTemplate(template);
+
