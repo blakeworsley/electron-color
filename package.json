@@ -5,7 +5,8 @@
   "main": "app/main.js",
   "scripts": {
     "start": "electron .",
-    "test": "mocha tests/test.js"
+    "test": "mocha tests/test.js",
+    "build": "electron-packager . 'Electron Color' --out='build' --icon='eyedropper.icns'"
   },
   "repository": {
     "type": "git",
