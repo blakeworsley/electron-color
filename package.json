@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "test": "mocha tests/test.js",
-    "postinstall": "electron-rebuild"
+    "postinstall": "electron-rebuild",
+    "build": "electron-packager . 'Electron Color' --out='build' --icon='eyedropper.icns'"
   },
   "repository": {
     "type": "git",

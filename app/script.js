@@ -8,6 +8,7 @@ const $electronColorApp = $('.electron-color-app');
 const $gradientColor = $('.gradient-color');
 const $rgbaValue = $('.rgba-value');
 const $hexValue = $('.hex-value');
+const $currentColor = $('.current-color');
 
 const $saveColorButton = $('.save-color-button');
 const $eyedropperButton = $('.eyedropper-button');
@@ -82,6 +83,7 @@ function copied(value) {
 }
 
 $eyedropperButton.on('click', () => { toggleEyedropper(); });
+$currentColor.on('click', () => { toggleEyedropper(); });
 $gradient.on('click', () => { grabAndChangeColor(); });
 $savedColors.on('click', () => { grabAndChangeColor(); });
 
@@ -181,9 +183,12 @@ function updateColor(){
 
 function updateSliderColor(red, green, blue, alpha) {
   if($('.update-slider').length < 1) {
+    $currentColor.css({'background-color': `rgba(${red}, ${green}, ${blue}, ${alpha})`});
     return $(`<style class="update-slider">input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}</style>`).appendTo('head');
   }
   $('.update-slider').html(`input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}`);
+  $currentColor.css({'background-color': `rgba(${red}, ${green}, ${blue}, ${alpha})`});
+  
 }
 
 function updateGradientColor(hsla, hex) {
