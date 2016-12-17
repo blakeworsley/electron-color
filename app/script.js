@@ -49,9 +49,11 @@ ipcRenderer.on('retrieved-colors', (event, data) => {
   updateColor();
 });
 
+
 $(document).keyup(function(e) {
-  if (e.keyCode == (27 || 69)) {toggleEyedropper();};
+  if (e.keyCode == 68) {toggleEyedropper();};
 });
+
 
 $redValueInput.on('change', () => handleIndividualColorValue($redValueInput, $redValue, $redValueInputSlider));
 $greenValueInput.on('change', () => handleIndividualColorValue($greenValueInput, $greenValue, $greenValueInputSlider));
@@ -188,7 +190,7 @@ function updateSliderColor(red, green, blue, alpha) {
   }
   $('.update-slider').html(`input[type=range]::-webkit-slider-thumb{background:rgba(${red}, ${green}, ${blue}, ${alpha})}`);
   $currentColor.css({'background-color': `rgba(${red}, ${green}, ${blue}, ${alpha})`});
-  
+
 }
 
 function updateGradientColor(hsla, hex) {
