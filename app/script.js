@@ -93,8 +93,7 @@ $saveColorButton.on('click', function() {
   let red = $redValueInput.val();
   let green = $greenValueInput.val();
   let blue = $blueValueInput.val();
-  let alpha = $alphaValueInput.val();
-  mainProcess.saveCurrentColor({ r:red, g:green, b:blue, a:alpha });
+  mainProcess.saveCurrentColor({ r:red, g:green, b:blue, a:1 });
 });
 
 function updateInputs(data){
