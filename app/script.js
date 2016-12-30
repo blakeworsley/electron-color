@@ -97,7 +97,8 @@ $saveColorButton.on('click', function() {
 });
 
 $resetColorsButton.on('click', function() {
-  mainProcess.removeSavedColors(); 
+  mainProcess.resetSavedColors();
+  updateColor();
 });
 
 function updateInputs(data){

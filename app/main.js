@@ -63,12 +63,10 @@ const saveCurrentColor = exports.saveCurrentColor = (color) => {
     .catch(err => console.log(err));
 };
 
-const removeSavedColors = exports.removeSavedColors = () => {
-  storage.remove('saved-colors.json', err => {
-    if (err) {
-      console.log(err);
-    }
-  });
+const resetSavedColors = exports.resetSavedColors = () => {
+    storage.set('saved-colors', defaultData)
+    .then(() => retrieveDataFromStorage())
+    .catch(err => console.log(err));
 };
 
 //data model//
