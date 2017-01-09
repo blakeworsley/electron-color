@@ -13,7 +13,7 @@ const $currentColor = $('.current-color');
 const $saveColorButton = $('.save-color-button');
 const $eyedropperButton = $('.eyedropper-button');
 const $hexValueButton = $('.hex-value-button');
-
+const $resetColorsButton = $('.reset-colors-button');
 
 const $redValueInput = $('.red-value-input');
 const $greenValueInput = $('.green-value-input');
@@ -94,6 +94,11 @@ $saveColorButton.on('click', function() {
   let green = $greenValueInput.val();
   let blue = $blueValueInput.val();
   mainProcess.saveCurrentColor({ r:red, g:green, b:blue, a:1 });
+});
+
+$resetColorsButton.on('click', function() {
+  mainProcess.resetSavedColors();
+  updateColor();
 });
 
 function updateInputs(data){
